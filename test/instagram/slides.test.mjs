@@ -14,10 +14,10 @@ async function dir(t, prefix) {
   return created;
 }
 
-async function draftWithSlides(t, lines, draft = "2026-10-12-prazo-recurso-v2.md") {
+async function draftWithSlides(t, lines, draft = "2026-10-12-appeal-deadline-v2.md") {
   const drafts = await dir(t, "instagram-slides-");
   const draftPath = path.join(drafts, draft);
-  await writeFile(draftPath, "Legenda");
+  await writeFile(draftPath, "Caption");
   await writeFile(slidesFile(draftPath), lines.join("\n"));
   return draftPath;
 }
@@ -28,30 +28,30 @@ test("the slide list sits beside the draft", () => {
 
 test("reads the slides in order, with their alt text, keeping slides of earlier versions", async t => {
   const draftPath = await draftWithSlides(t, [
-    "2026-10-12-prazo-recurso-v1-1.jpg | Capa: Prazo da contestação",
+    "2026-10-12-appeal-deadline-v1-1.jpg | Cover: Dispute deadline",
     "",
-    "  2026-10-12-prazo-recurso-v2-2.jpg|Slide 2: conte os dias a partir da nota  ",
-    "2026-10-12-prazo-recurso-v1-3.jpg | Fechamento | salve para consultar"
+    "  2026-10-12-appeal-deadline-v2-2.jpg|Slide 2: count the days from the invoice  ",
+    "2026-10-12-appeal-deadline-v1-3.jpg | Closing | save to check later"
   ]);
   assert.deepEqual(await readSlides(draftPath), [
-    { name: "2026-10-12-prazo-recurso-v1-1.jpg", alt: "Capa: Prazo da contestação" },
-    { name: "2026-10-12-prazo-recurso-v2-2.jpg", alt: "Slide 2: conte os dias a partir da nota" },
-    { name: "2026-10-12-prazo-recurso-v1-3.jpg", alt: "Fechamento | salve para consultar" }
+    { name: "2026-10-12-appeal-deadline-v1-1.jpg", alt: "Cover: Dispute deadline" },
+    { name: "2026-10-12-appeal-deadline-v2-2.jpg", alt: "Slide 2: count the days from the invoice" },
+    { name: "2026-10-12-appeal-deadline-v1-3.jpg", alt: "Closing | save to check later" }
   ]);
 });
 
 test("refuses a slide list that is missing, empty, too long or malformed", async t => {
   const drafts = await dir(t, "instagram-noslides-");
   const lonely = path.join(drafts, "2026-10-12-x-v1.md");
-  await writeFile(lonely, "Legenda");
+  await writeFile(lonely, "Caption");
   await assert.rejects(readSlides(lonely), /2026-10-12-x-v1\.slides\.txt is missing/);
-  const name = k => `2026-10-12-prazo-recurso-v2-${k}.jpg | alt ${k}`;
+  const name = k => `2026-10-12-appeal-deadline-v2-${k}.jpg | alt ${k}`;
   for (const [lines, message] of [
     [[], /1 to 10 slides; it names 0/],
     [Array.from({ length: 11 }, (_, i) => name((i % 10) + 1)), /1 to 10 slides; it names 11/],
-    [["2026-10-12-prazo-recurso-v2-1.jpg"], /must be "<image file> \| <alt text>"/],
-    [["2026-10-12-prazo-recurso-v2-1.jpg | "], /has no alt text/],
-    [[`2026-10-12-prazo-recurso-v2-1.jpg | ${"a".repeat(MAX_ALT_TEXT + 1)}`], /1001 characters of alt text/],
+    [["2026-10-12-appeal-deadline-v2-1.jpg"], /must be "<image file> \| <alt text>"/],
+    [["2026-10-12-appeal-deadline-v2-1.jpg | "], /has no alt text/],
+    [[`2026-10-12-appeal-deadline-v2-1.jpg | ${"a".repeat(MAX_ALT_TEXT + 1)}`], /1001 characters of alt text/],
     [[name(1), name(1)], /repeats/]
   ]) {
     await assert.rejects(readSlides(await draftWithSlides(t, lines)), message);
@@ -61,7 +61,7 @@ test("refuses a slide list that is missing, empty, too long or malformed", async
 test("a slide list that is a symlink is never read", { skip: process.platform === "win32" }, async t => {
   const drafts = await dir(t, "instagram-slidelink-");
   const draftPath = path.join(drafts, "2026-10-12-x-v1.md");
-  await writeFile(draftPath, "Legenda");
+  await writeFile(draftPath, "Caption");
   await writeFile(path.join(drafts, "elsewhere.txt"), "2026-10-12-x-v1-1.jpg | alt");
   await symlink(path.join(drafts, "elsewhere.txt"), slidesFile(draftPath));
   await assert.rejects(readSlides(draftPath), /2026-10-12-x-v1\.slides\.txt is missing/);
@@ -69,9 +69,9 @@ test("a slide list that is a symlink is never read", { skip: process.platform ==
 
 test("each slide must be an image of this post, from this version or an earlier one", async t => {
   for (const bad of [
-    "2026-10-12-outro-post-v1-1.jpg", "2026-10-12-prazo-recurso-v3-1.jpg", "2026-10-12-prazo-recurso-v2-11.jpg",
-    "2026-10-12-prazo-recurso-v2-0.jpg", "2026-10-12-prazo-recurso-v2.png", "2026-10-12-prazo-recurso-v2-1.png",
-    "../../etc/passwd", "2026-10-12-prazo-recurso-v2-1.jpg---00000001-aaaa-bbbb-cccc-dddddddddddd.jpg"
+    "2026-10-12-outro-post-v1-1.jpg", "2026-10-12-appeal-deadline-v3-1.jpg", "2026-10-12-appeal-deadline-v2-11.jpg",
+    "2026-10-12-appeal-deadline-v2-0.jpg", "2026-10-12-appeal-deadline-v2.png", "2026-10-12-appeal-deadline-v2-1.png",
+    "../../etc/passwd", "2026-10-12-appeal-deadline-v2-1.jpg---00000001-aaaa-bbbb-cccc-dddddddddddd.jpg"
   ]) {
     await assert.rejects(readSlides(await draftWithSlides(t, [`${bad} | alt`])), /is not an image of this post/, bad);
   }

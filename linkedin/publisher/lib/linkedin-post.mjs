@@ -39,12 +39,12 @@ export function readApiVersion(value) {
 
 export function readAccount(account, now) {
   if (!personUrnPattern.test(account?.personUrn ?? "")) {
-    throw new PublishError("state/linkedin-account.json has no valid personUrn; renew the token (linkedin/scripts/auth.mjs url in WSL, then \"renova o token\")");
+    throw new PublishError("state/linkedin-account.json has no valid personUrn; renew the token (linkedin/scripts/auth.mjs url in WSL, then \"renew the token\")");
   }
   const expiresAt = Date.parse(account.expiresAt);
-  if (Number.isNaN(expiresAt)) throw new PublishError("state/linkedin-account.json has no valid expiresAt; renew the token (linkedin/scripts/auth.mjs url in WSL, then \"renova o token\")");
+  if (Number.isNaN(expiresAt)) throw new PublishError("state/linkedin-account.json has no valid expiresAt; renew the token (linkedin/scripts/auth.mjs url in WSL, then \"renew the token\")");
   if (expiresAt <= now.getTime()) {
-    throw new PublishError("the LinkedIn token expired; renew it (linkedin/scripts/auth.mjs url in WSL, then \"renova o token\"). Nothing was posted.");
+    throw new PublishError("the LinkedIn token expired; renew it (linkedin/scripts/auth.mjs url in WSL, then \"renew the token\"). Nothing was posted.");
   }
   return { personUrn: account.personUrn, expiresAt: account.expiresAt };
 }
@@ -100,7 +100,7 @@ async function imageRequest(fetch, url, init, timeoutMs, stage) {
 async function imageFailure(response, stage) {
   if (response.status === 401) {
     await response.body?.cancel();
-    return new PublishError(`${stage} was refused (HTTP 401): the token expired or was revoked. Renew it (linkedin/scripts/auth.mjs url in WSL, then "renova o token"). Nothing was posted.`);
+    return new PublishError(`${stage} was refused (HTTP 401): the token expired or was revoked. Renew it (linkedin/scripts/auth.mjs url in WSL, then "renew the token"). Nothing was posted.`);
   }
   if (response.status === 403) {
     await response.body?.cancel();
@@ -164,7 +164,7 @@ async function failureFor(response, version) {
   const { status } = response;
   if (status === 401) {
     await response.body?.cancel();
-    return new PublishError("LinkedIn rejected the token (HTTP 401): it expired or was revoked. Renew it (linkedin/scripts/auth.mjs url in WSL, then \"renova o token\"). Nothing was posted.");
+    return new PublishError("LinkedIn rejected the token (HTTP 401): it expired or was revoked. Renew it (linkedin/scripts/auth.mjs url in WSL, then \"renew the token\"). Nothing was posted.");
   }
   if (status === 403) {
     await response.body?.cancel();

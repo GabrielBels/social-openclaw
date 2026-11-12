@@ -29,17 +29,17 @@ test("the only commands the instructions name are the publisher, the bare token 
 });
 
 test("SVG slides are a fallback for a failed image_generate, drawn in the house style and seen before approval", () => {
-  assert.ok(read("SOUL.md").includes("When `image_generate` fails, and when Gabriel answers \"slides em svg\" or \"imagem\", follow `SLIDES-SVG.md`"));
+  assert.ok(read("SOUL.md").includes("When `image_generate` fails, and when Gabriel answers \"svg slides\" or \"image\", follow `SLIDES-SVG.md`"));
   assert.ok(read("SOUL.md").includes("A version drawn as SVG changes as SVG."));
   const slides = read("SLIDES-SVG.md");
   for (const part of ["make no other call", "so the carousel has one look", "A slide that is only pending has not failed",
-    "Responda \\\"slides em svg\\\" para fazer os slides em SVG.", "save the next version instead",
+    "Reply \\\"svg slides\\\" to draw the slides as SVG.", "save the next version instead",
     "x 135 to 395 on the cover and x 96 to 356 on the other slides", "Never draw a logo", "the renderer refuses a slide that draws in it",
     "with no `opacity` or `transform`", "never the background", "between x 135 and x 945",
     "#F6F3EC", "#12324A", "#1E2732", "#0F9D7A", "#B8743C", "#FFFFFF", "`Geist` and `Inter 18pt`", "Their words are placeholders",
-    "the call to action, exactly as `USER.md` gives it", "with every accent right", "No `<script>`, `<image>`",
-    "A OpenAI não gerou as imagens; os slides saíram em SVG. Responda \\\"imagem\\\" para vê-los.",
-    "Gabriel approves only slides he has seen", "Responda ok para publicar, ou diga o que mudar.", "A drawn slide is never redrawn"]) {
+    "the call to action, exactly as `USER.md` gives it", "spelled correctly", "No `<script>`, `<image>`",
+    "OpenAI did not generate the images, so the slides were drawn as SVG. Reply \\\"image\\\" to see them.",
+    "Gabriel approves only slides he has seen", "Reply ok to publish, or say what to change.", "A drawn slide is never redrawn"]) {
     assert.ok(slides.includes(part), part);
   }
   for (const [, layout] of slides.matchAll(/`([a-z]+\.svg)`/g)) {
@@ -50,7 +50,7 @@ test("SVG slides are a fallback for a failed image_generate, drawn in the house 
 test("slides are JPEG squares named after their draft, listed with alt text in a file beside it", () => {
   const soul = read("SOUL.md");
   for (const part of ["`size` 1024x1024", "`outputFormat` jpeg", "`count` 1", "never an `aspectRatio`", "Preserve the supplied brand logo",
-    "#F6F3EC", "#12324A", "#1E2732", "#0F9D7A", "#B8743C", "every accent right"]) assert.ok(soul.includes(part), part);
+    "#F6F3EC", "#12324A", "#1E2732", "#0F9D7A", "#B8743C", "spelled correctly"]) assert.ok(soul.includes(part), part);
   const agents = read("AGENTS.md");
   for (const part of ["`YYYY-MM-DD-<slug>-v1-<k>.jpg`", "content/drafts/YYYY-MM-DD-<slug>-v1.md",
     "content/drafts/YYYY-MM-DD-<slug>-v1.slides.txt", "`<slide file> | <alt text>`", "1,000 characters"]) {
@@ -60,32 +60,32 @@ test("slides are JPEG squares named after their draft, listed with alt text in a
 
 test("covers rotate their background, keep words inside the 3:4 grid crop and never copy the reference's composition", () => {
   const soul = read("SOUL.md");
-  for (const part of ["logo, palette and typography only", "Never copy its composition", "*escura*", "*clara*", "*cor*",
+  for (const part of ["logo, palette and typography only", "Never copy its composition", "*dark*", "*light*", "*color*",
     "Never repeat the background of the previous published or planned post's cover", "central three quarters of the width",
     "at most 6 words", "Do not copy the reference's layout or illustration.", "white title, no subtitle",
-    "a carousel line without one was *escura*",
+    "a carousel line without one was *dark*",
     "On the cover, also ask for a small logo and for every word inside the central three quarters of the width."]) assert.ok(soul.includes(part), part);
-  assert.ok(!soul.includes("cover and last slide on azul"));
-  assert.ok(read("AGENTS.md").includes("capa <cover>"));
-  assert.ok(read("EDITORIAL.md").includes("\"cover\": \"clara\""));
+  assert.ok(!soul.includes("cover and last slide on navy"));
+  assert.ok(read("AGENTS.md").includes("cover <cover>"));
+  assert.ok(read("EDITORIAL.md").includes("\"cover\": \"light\""));
 });
 
 test("AGENTS.md sends a finished post for approval, never runs a command while making it, and versions every change", () => {
   const agents = read("AGENTS.md");
-  for (const part of ["\"novo post\"", "you choose the topic yourself", "Never run any command in this step",
+  for (const part of ["\"new post\"", "you choose the topic yourself", "Never run any command in this step",
     "Read the primary source in full", "If no primary source confirms the rule, choose another topic",
-    "Then the words of each slide, numbered", "Responda ok para publicar, ou diga o que mudar.",
+    "Then the words of each slide, numbered", "Reply ok to publish, or say what to change.",
     "Never overwrite or edit a draft file or a slide list.", "Make new images only for the slides that change",
-    "| Date | Pillar | Format | Topic | Source | URL |", "less than 20 days away", "\"renova o token\"",
+    "| Date | Pillar | Format | Topic | Source | URL |", "less than 20 days away", "\"renew the token\"",
     "a format or topic Gabriel names replaces it"]) {
     assert.ok(agents.includes(part), part);
   }
 });
 
-test("SOUL.md writes Brazilian Portuguese for the audience in USER.md, without engagement bait or AI tells", () => {
+test("SOUL.md writes English for the audience in USER.md, without engagement bait or AI tells", () => {
   const soul = read("SOUL.md");
-  for (const part of ["in Brazilian Portuguese", "never explain the basics", "**Carrossel**", "**Post único**", "Never \"Você sabia?\"",
-    "exactly the call to action in `USER.md`", "Never \"comente SIM\"", "3 to 5 specific ones",
+  for (const part of ["in English", "never explain the basics", "**Carousel**", "**Single image**", "Never \"Did you know?\"",
+    "exactly the call to action in `USER.md`", "Never \"comment YES\"", "3 to 5 specific ones",
     "## Sound human", "em dashes (—)", "Banned words", "Before showing a draft"]) assert.ok(soul.includes(part), part);
 });
 

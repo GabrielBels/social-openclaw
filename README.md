@@ -1,45 +1,46 @@
 # Social OpenClaw
 
-Um Gateway do OpenClaw para mídias sociais (`openclaw --profile social`), com dois agentes, cada um com o seu bot dedicado no Telegram:
+An OpenClaw Gateway for social media (`openclaw --profile social`), with two agents, each with its own dedicated Telegram bot. Both agents talk to Gabriel in English.
 
-- **Pauta** (`linkedin`) cuida do LinkedIn do Gabriel. Pesquisa notícias de IA e engenharia de software, escolhe a melhor e escreve em inglês, na voz do Gabriel, uma nota de engenharia curta. A imagem é um SVG que ele desenha num dos formatos fixos (diagrama, ilustração ou tela), todos na mesma identidade escura das capas de artigo do Gabriel, e o `render.mjs` transforma em PNG. Quando o Gabriel pede, ele desenha também a capa de um artigo, que o Gabriel sobe no LinkedIn por conta própria. O objetivo é autoridade técnica em quatro pilares (engenharia assistida por IA, backend/.NET/arquitetura, LLMs em produção e carreira global em engenharia) que abra portas nos EUA.
-- **Vitrine** (`instagram`) cuida do Instagram de uma marca. Escolhe um tema dos pilares da marca, lê a fonte primária, gera os slides de um carrossel (ou uma imagem única) nas cores da marca e escreve a legenda em português. A marca, o público, os pilares e a chamada para ação ficam em `instagram/workspace/USER.md`, um template a preencher antes do deploy; o logo e a imagem de referência ficam em `instagram/publisher/brand/` e `instagram/workspace/brand/`.
+- **Pitch** (`linkedin`) runs Gabriel's LinkedIn. It researches AI and software engineering news, picks the best item and writes a short engineering note in English, in Gabriel's voice. The image is an SVG it draws in one of the fixed formats (diagram, illustration or screen), all in the same dark identity as Gabriel's article covers, and `render.mjs` turns it into a PNG. When Gabriel asks, it also draws an article cover, which Gabriel uploads to LinkedIn himself. The goal is technical authority across four pillars (AI-assisted engineering, backend/.NET/architecture, LLMs in production and a global engineering career) that opens doors in the US.
+- **Showcase** (`instagram`) runs a brand's Instagram. It picks a topic from the brand's pillars, reads the primary source, generates the slides of a carousel (or a single image) in the brand colors and writes the caption in English. Every Instagram post is written in English. The brand, audience, pillars and call to action live in `instagram/workspace/USER.md`, a template to fill in before deploy; the logo and the reference image live in `instagram/publisher/brand/` and `instagram/workspace/brand/`.
 
-Os dois mandam o post pronto. O Gabriel só aprova ou pede ajustes, e o post sai pela API oficial da rede depois de uma aprovação que o próprio OpenClaw exige.
+Both send the finished post. Gabriel only approves it or asks for changes, and the post goes out through the network's official API after an approval that OpenClaw itself requires.
 
-O Gateway tem perfil, store de secrets e serviço próprios, isolado de qualquer outro Gateway do OpenClaw na mesma máquina. Nenhum dos agentes tem acesso a dados de clientes ou de dentro de um produto.
+The Gateway has its own profile, secrets store and service, isolated from any other OpenClaw Gateway on the same machine. Neither agent has access to customer data or to data from inside a product.
 
-## Como um post anda
+## How a post moves
 
-1. **Post pronto.** No horário agendado de cada agente (store do OpenClaw), ou quando você manda "novo post" ao bot dele, o agente escolhe o tema, gera as imagens e escreve o texto. Você recebe o texto exatamente como vai sair, com pilar, formato, fonte e arquivo, e em seguida as imagens. No Instagram, recebe também as palavras de cada slide, para conferir os acentos. No LinkedIn, a imagem é um SVG que o `render.mjs` transforma em PNG depois que você aprova o comando; o post agendado não roda comandos, então a imagem vem quando você responde "imagem". No Instagram, se o `image_generate` falhar (OpenAI fora do ar ou no limite de uso), o agente escreve os slides em SVG na identidade da marca, e você os vê ao responder "imagem" e aprovar o `render.mjs` do Instagram.
-2. **Ajustes.** "mais curto", "outra imagem", "troca o slide 3" ou qualquer mudança gera a versão seguinte, num arquivo novo `content/drafts/AAAA-MM-DD-<slug>-v<n>.md` que nunca é sobrescrito, com imagens novas só para o que mudou.
-3. **Publicação.** Você responde "ok". O agente roda o publisher da rede com o arquivo exato, e o OpenClaw pede sua aprovação no Telegram com o caminho do arquivo. Você responde `/approve <id> allow-once`. Negar ou não responder não publica nada.
-   - **LinkedIn:** o publisher envia a imagem pela Images API e publica o post com ela.
-   - **Instagram:** o publisher confere que o token é da conta esperada (`INSTAGRAM_USERNAME`), envia cada slide a um bucket privado do Backblaze B2 e gera um link de leitura válido por uma hora, restrito ao nome aleatório da imagem. O Instagram busca as imagens por esses links, e o publisher cria os containers, publica e apaga as versões enviadas ao bucket.
-4. **Registro.** O agente devolve a URL do post e anota data, pilar, formato, tema, fonte e URL no `content/ledger.md` do workspace dele.
+1. **Finished post.** At each agent's scheduled time (OpenClaw store), or when you send "new post" to its bot, the agent picks the topic, generates the images and writes the text. You receive the text exactly as it will go out, with pillar, format, source and file, followed by the images. On Instagram you also receive the words of each slide, to check the accents. On LinkedIn the image is an SVG that `render.mjs` turns into a PNG after you approve the command; the scheduled post runs no commands, so the image arrives when you reply "image". On Instagram, if `image_generate` fails (OpenAI down or at its usage limit), the agent writes the slides as SVG in the brand identity, and you see them when you reply "image" and approve the Instagram `render.mjs`.
+2. **Changes.** "shorter", "another image", "swap slide 3" or any other change produces the next version, in a new `content/drafts/YYYY-MM-DD-<slug>-v<n>.md` file that is never overwritten, with new images only for what changed.
+3. **Publishing.** You reply "ok". The agent runs the network's publisher with the exact file, and OpenClaw asks for your approval in Telegram with the file path. You reply `/approve <id> allow-once`. Denying or not replying publishes nothing.
+   - **LinkedIn:** the publisher uploads the image through the Images API and publishes the post with it.
+   - **Instagram:** the publisher checks that the token belongs to the expected account (`INSTAGRAM_USERNAME`), uploads each slide to a private Backblaze B2 bucket and generates a read link valid for one hour, restricted to the image's random name. Instagram fetches the images through those links, and the publisher creates the containers, publishes and deletes the versions uploaded to the bucket.
+4. **Record.** The agent returns the post URL and writes date, pillar, format, topic, source and URL to `content/ledger.md` in its workspace.
 
-## Segurança
+## Security
 
-- As credenciais permanentes são secrets protegidos do OpenClaw, cada uma vinculada aos hosts da sua API: LinkedIn a `api.linkedin.com` e `www.linkedin.com`, Instagram a `graph.instagram.com`, B2 a `api.backblazeb2.com`. O código recebe o sentinel `oc-sent-v2…`, e o proxy de saída do Gateway troca pelo valor real só nesses hosts. Os tokens temporários emitidos pelo B2 ficam apenas na memória do publisher, que valida os destinos e recusa redirecionamentos. Somente o acesso temporário de leitura da imagem é enviado à Meta; credenciais refletidas em erros são ocultadas antes de chegar ao chat. Os tokens não aparecem no chat, em arquivos ou em logs locais. Os dois agentes dividem o store, então todo comando aprovado recebe os sentinels de todas as credenciais; o vínculo de host e o `/approve` são as barreiras.
-- Nenhum parâmetro operacional fica no código: os IDs, o horário de cada agente, os modelos, o provedor de busca, o modelo de imagem, a versão da API do Instagram, a conta esperada e o bucket do B2 são entradas `env` do store.
-- **LinkedIn:** a cada 60 dias você renova o token. Primeiro roda `linkedin/scripts/auth.mjs url` no seu terminal, abre o link e cola ali o endereço de retorno. Depois manda "renova o token" ao bot do LinkedIn e aprova a troca. O link e o código nunca passam pelo agente nem pelo chat.
-- **Instagram:** o primeiro token é gerado no app da Meta e guardado com `instagram/scripts/token.mjs store` no seu terminal. Depois, mande "renova o token" ao bot do Instagram (antes dos 60 dias) e aprove o `token.mjs refresh`, que troca o token sem passar pelo chat.
-- Os agentes só têm busca e leitura na web, arquivos do próprio workspace, `exec` e, no Instagram, geração de imagem. **Todo** comando pede sua aprovação (`allow-once` ou `deny`; não existe aprovação permanente). Cada agente tem só os comandos previstos: o publisher dele com um arquivo de `content/drafts/`, o comando de token dele sem argumentos e o `render.mjs` dele: no LinkedIn com um SVG de `content/drafts/`, no Instagram com uma lista de slides (`.slides.txt`) de `content/drafts/`. Negue qualquer outro.
-- Os publishers e scripts ficam fora dos workspaces dos agentes, então os agentes não conseguem alterá-los.
-- Os agentes rodam no runtime do próprio OpenClaw, com o Code Mode desligado. O harness do Codex fica desligado, porque as ferramentas nativas dele não passariam pelo `/approve`.
-- O registro de aprovações tem pisos (`security`, `ask: always`, `askFallback: deny`) que nem uma mensagem `/exec security=full ask=off` consegue afrouxar.
-- Os jobs agendados não têm `exec`, e aprovações de automação nunca chegam ao chat. Por isso a publicação começa sempre por um "ok" seu na conversa.
-- Agentes sem navegador. Sem skills não oficiais das redes.
+- The permanent credentials are protected OpenClaw secrets, each bound to the hosts of its API: LinkedIn to `api.linkedin.com` and `www.linkedin.com`, Instagram to `graph.instagram.com`, B2 to `api.backblazeb2.com`. The code receives the `oc-sent-v2…` sentinel, and the Gateway's outbound proxy swaps it for the real value only on those hosts. The temporary tokens issued by B2 stay only in the publisher's memory, which validates the destinations and refuses redirects. Only the temporary image read access is sent to Meta; credentials reflected in errors are redacted before they reach the chat. Tokens do not appear in the chat, in files or in local logs. The two agents share the store, so every approved command receives the sentinels of all credentials; the host binding and `/approve` are the barriers.
+- No operational parameter lives in the code: the IDs, each agent's schedule, the models, the search provider, the image model, the Instagram API version, the expected account and the B2 bucket are `env` entries of the store.
+- **LinkedIn:** every 60 days you renew the token. First run `linkedin/scripts/auth.mjs url` in your terminal, open the link and paste the return address there. Then send "renew the token" to the LinkedIn bot and approve the exchange. The link and the code never pass through the agent or the chat.
+- **Instagram:** the first token is generated in the Meta app and stored with `instagram/scripts/token.mjs store` in your terminal. Afterwards, send "renew the token" to the Instagram bot (before the 60 days) and approve `token.mjs refresh`, which swaps the token without passing through the chat.
+- The agents only have web search and reading, files in their own workspace, `exec` and, on Instagram, image generation. **Every** command asks for your approval (`allow-once` or `deny`; there is no permanent approval). Each agent has only the intended commands: its publisher with a file from `content/drafts/`, its token command with no arguments and its `render.mjs`: on LinkedIn with an SVG from `content/drafts/`, on Instagram with a slide list (`.slides.txt`) from `content/drafts/`. Deny anything else.
+- The publishers and scripts live outside the agents' workspaces, so the agents cannot change them.
+- The agents run on OpenClaw's own runtime, with Code Mode off. The Codex harness is off, because its native tools would not go through `/approve`.
+- The approvals registry has floors (`security`, `ask: always`, `askFallback: deny`) that not even a `/exec security=full ask=off` message can loosen.
+- Scheduled jobs have no `exec`, and automation approvals never reach the chat. That is why publishing always starts with an "ok" from you in the conversation.
+- Agents have no browser. No unofficial network skills.
 
-## Documentos
+## Documents
 
-- Design: [LinkedIn](docs/plans/2026-10-07-linkedin-social-agent-design.md), [armazenamento B2](docs/plans/2026-10-15-instagram-backblaze-design.md) e [slides em SVG do Instagram](docs/plans/2026-11-05-instagram-svg-fallback-design.md)
-- [Guia de operação](docs/operations.md): setup, migração do perfil `linkedin`, deploy, tokens e solução de problemas
+- Design: [LinkedIn](docs/plans/2026-10-07-linkedin-social-agent-design.md), [B2 storage](docs/plans/2026-10-15-instagram-backblaze-design.md) and [Instagram SVG slides](docs/plans/2026-11-05-instagram-svg-fallback-design.md)
+- [Operations guide](docs/operations.md): setup, migration of the `linkedin` profile, deploy, tokens and troubleshooting
 
-## Testes
+## Tests
 
 ```bash
+npm ci
 node --test
 ```
 
-Sem dependências npm. Precisa de Node ≥ 22.
+Needs Node ≥ 22.

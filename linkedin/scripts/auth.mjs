@@ -242,7 +242,7 @@ async function startAuthorization({ env, spawn, openclawBin, prompt, now, newSta
   stdout.write(`LinkedIn then sends the browser to ${redirectUri}?code=...; the page may fail to load, and that is fine. Copy the whole address from its address bar.\n`);
   const code = codeFromRedirect(await prompt("Paste the address (hidden): "), { redirectUri, state });
   await writePrivateJson(pendingFile, { code, redirectUri, createdAt: now().toISOString() });
-  stdout.write("Saved. Within 30 minutes, send \"renova o token\" to the bot and approve its auth.mjs exchange.\n");
+  stdout.write("Saved. Within 30 minutes, send \"renew the token\" to the bot and approve its auth.mjs exchange.\n");
 }
 
 async function finishAuthorization({ env, fetch, spawn, openclawBin, now, workspace, pendingFile, stdout }) {

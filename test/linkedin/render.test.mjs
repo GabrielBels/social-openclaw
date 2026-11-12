@@ -141,9 +141,9 @@ test("the checker accepts the house style and refuses whatever reaches outside t
     [svg("<filter id=\"f\"><feImage href='/home/openclaw/photo.png'/></filter>"), /<feImage>/],
     [svg("<filter id=\"f\"><feImage href='/home/openclaw/photo.png'/></filter>"), /links outside the file \(\/home\/openclaw\/photo\.png\)/],
     // A prefix bound to the SVG or XLink namespace names the same element or attribute, ASCII or not.
-    [svg('<s:image xmlns:s="http://www.w3.org/2000/svg" é:href="/home/openclaw/photo.png"/>'), /<image>/],
-    [svg('<s:image xmlns:s="http://www.w3.org/2000/svg" é:href="/home/openclaw/photo.png"/>'), /links outside the file \(\/home\/openclaw\/photo\.png\)/],
-    [svg('<g xmlns:é="http://www.w3.org/1999/xlink"/>'), /namespace prefix other than xlink/],
+    [svg('<s:image xmlns:s="http://www.w3.org/2000/svg" ü:href="/home/openclaw/photo.png"/>'), /<image>/],
+    [svg('<s:image xmlns:s="http://www.w3.org/2000/svg" ü:href="/home/openclaw/photo.png"/>'), /links outside the file \(\/home\/openclaw\/photo\.png\)/],
+    [svg('<g xmlns:ü="http://www.w3.org/1999/xlink"/>'), /namespace prefix other than xlink/],
     [svg("<x:script xmlns:x=\"http://www.w3.org/2000/svg\">alert(1)</x:script>"), /<script>/],
     [svg('<x:foreignObject/><x:feImage/>'), /<foreignObject>/],
     [svg('<x:foreignObject/><x:feImage/>'), /<feImage>/],

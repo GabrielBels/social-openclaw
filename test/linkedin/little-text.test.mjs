@@ -17,6 +17,6 @@ test("escapes every occurrence in a realistic post", () => {
 });
 
 test("leaves ordinary text, punctuation, accents and emoji untouched", () => {
-  const text = "Plain text, with: punctuation! \"quotes\" 'apostrophes' — dashes; ação 100% ✅";
+  const text = "Plain text, with: punctuation! \"quotes\" 'apostrophes' — dashes; über 100% ✅";
   assert.equal(escapeLittleText(text), text);
 });

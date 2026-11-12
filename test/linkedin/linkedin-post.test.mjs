@@ -138,7 +138,7 @@ test("refusing a plaintext token never echoes it", () => {
 test("reads a valid account and refuses an expired, malformed or missing one", () => {
   const now = new Date("2026-10-07T12:00:00Z");
   assert.deepEqual(readAccount({ personUrn, expiresAt: "2026-12-01T00:00:00Z" }, now), { personUrn, expiresAt: "2026-12-01T00:00:00Z" });
-  assert.throws(() => readAccount({ personUrn, expiresAt: "2026-10-07T11:59:59Z" }, now), /expired; renew it \(linkedin\/scripts\/auth\.mjs url in WSL, then "renova o token"\)/);
+  assert.throws(() => readAccount({ personUrn, expiresAt: "2026-10-07T11:59:59Z" }, now), /expired; renew it \(linkedin\/scripts\/auth\.mjs url in WSL, then "renew the token"\)/);
   assert.throws(() => readAccount({ personUrn: "urn:li:organization:1", expiresAt: "2026-12-01T00:00:00Z" }, now), /personUrn/);
   assert.throws(() => readAccount({ personUrn, expiresAt: "soon" }, now), /expiresAt/);
   assert.throws(() => readAccount(undefined, now), /personUrn/);
@@ -157,7 +157,7 @@ test("201 with x-restli-id is published with its URL", async () => {
 });
 
 const failures = [
-  { name: "401", result: response(401, { body: '{"message":"Expired"}' }), outcome: "not_posted", message: /HTTP 401.*renova o token/ },
+  { name: "401", result: response(401, { body: '{"message":"Expired"}' }), outcome: "not_posted", message: /HTTP 401.*renew the token/ },
   { name: "403", result: response(403, { body: '{"message":"Not enough permissions"}' }), outcome: "not_posted", message: /HTTP 403.*w_member_social/ },
   { name: "422", result: response(422, { body: '{"message":"Invalid commentary","status":422}' }), outcome: "not_posted", message: /HTTP 422: Invalid commentary\. Nothing was posted/ },
   { name: "426", result: response(426, { body: '{"code":"NONEXISTENT_VERSION","message":"Requested version 20250101 is not active"}' }), outcome: "not_posted", message: /retired API version 202512.*Set LINKEDIN_API_VERSION/ },

@@ -34,20 +34,20 @@ test("the token must stay a protected secret, and the version and username come 
   assert.equal(readApiVersion(" v25.0\n"), "v25.0");
   assert.throws(() => readApiVersion(undefined), /INSTAGRAM_API_VERSION is not in the OpenClaw store/);
   for (const bad of ["25.0", "v25", "latest", "v25.0/../x"]) assert.throws(() => readApiVersion(bad), /must be a Graph API version/, bad);
-  assert.equal(readUsername("@minha_marca"), "minha_marca");
+  assert.equal(readUsername("@my_brand"), "my_brand");
   for (const bad of [undefined, "", "integri dens", "a".repeat(31)]) assert.throws(() => readUsername(bad), /INSTAGRAM_USERNAME/, String(bad));
 });
 
 test("reads the account behind the token with the sentinel as a bearer", async () => {
-  const { fetch, calls } = scripted(json(200, { user_id: userId, username: "minha_marca", id: "999" }));
-  assert.deepEqual(await fetchAccount({ fetch, token: sentinel, version }), { userId, username: "minha_marca" });
+  const { fetch, calls } = scripted(json(200, { user_id: userId, username: "my_brand", id: "999" }));
+  assert.deepEqual(await fetchAccount({ fetch, token: sentinel, version }), { userId, username: "my_brand" });
   assert.equal(calls[0].url, `${GRAPH_URL}/${version}/me?fields=user_id,username`);
   assert.equal(calls[0].init.headers.authorization, `Bearer ${sentinel}`);
 });
 
 test("an expired token, a missing permission or a rate limit posts nothing and says what to do", async () => {
   for (const [answer, message] of [
-    [graphError(400, 190, "Error validating access token"), /expired or was revoked\. Send "renova o token"/],
+    [graphError(400, 190, "Error validating access token"), /expired or was revoked\. Send "renew the token"/],
     [graphError(403, 10, "no permission"), /instagram_business_content_publish/],
     [graphError(400, 4, "too many calls"), /rate or publishing limit/],
     [graphError(400, 100, "Invalid parameter"), /failed \(HTTP 400, code 100\): Invalid parameter\. Nothing was posted/]
@@ -59,7 +59,7 @@ test("an expired token, a missing permission or a rate limit posts nothing and s
 
 test("creates a container with the given fields as JSON", async () => {
   const { fetch, calls } = scripted(json(200, { id: "180001" }));
-  const fields = { image_url: "https://pub-abc.r2.dev/k-1.jpg", is_carousel_item: true, alt_text: "Capa" };
+  const fields = { image_url: "https://pub-abc.r2.dev/k-1.jpg", is_carousel_item: true, alt_text: "Cover" };
   assert.equal(await createContainer({ fetch, token: sentinel, version, userId, fields }), "180001");
   assert.equal(calls[0].url, `${GRAPH_URL}/${version}/${userId}/media`);
   assert.equal(calls[0].init.method, "POST");

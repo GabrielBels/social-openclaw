@@ -9,7 +9,7 @@ How to set up, deploy and run the social Gateway and its two agents, `linkedin` 
 | WSL distribution and user | `OpenClawGateway`, user `openclaw` |
 | OpenClaw | `2026.9.8`, a CLI that other Gateways on the host may share |
 | Profile | `social`: every command is `openclaw --profile social …` |
-| Agents | `linkedin` (Pauta), `instagram` (Vitrine) and `main` (inert: OpenClaw will not delete it) |
+| Agents | `linkedin` (Pitch), `instagram` (Showcase) and `main` (inert: OpenClaw will not delete it) |
 | State dir and config | `~/.openclaw-social/`, `~/.openclaw-social/openclaw.json` |
 | Agent workspaces | `~/.openclaw-social/workspace-linkedin`, `~/.openclaw-social/workspace-instagram` |
 | Installed repo copy (publishers, token scripts, tests) | `~/.openclaw-social/social-openclaw`, outside both workspaces |
@@ -184,7 +184,7 @@ The link and the code stay with you: they never pass through the agent or the ch
    It reads the client id and the redirect URL from the store and prints the authorization link. Open it in the Windows browser, sign in as yourself and allow access. LinkedIn should show **your** app's name; if it shows another app, stop.
 
    LinkedIn then sends the browser to the redirect URL with `?code=…&state=…`; the page may fail to load, which is fine. Copy the whole address and paste it at the hidden prompt. The script checks the `state` and keeps the code, which is single-use and valid for 30 minutes, in a private file outside the agents' workspaces.
-2. **In the LinkedIn bot,** within 30 minutes, send **"renova o token"**. The agent runs `linkedin/scripts/auth.mjs exchange`, with no arguments. Approve it. It trades the code for a token, stores it (bound to `api.linkedin.com` and `www.linkedin.com`, which receives image uploads) and writes `workspace-linkedin/state/linkedin-account.json` with only `personUrn` and `expiresAt`.
+2. **In the LinkedIn bot,** within 30 minutes, send **"renew the token"**. The agent runs `linkedin/scripts/auth.mjs exchange`, with no arguments. Approve it. It trades the code for a token, stores it (bound to `api.linkedin.com` and `www.linkedin.com`, which receives image uploads) and writes `workspace-linkedin/state/linkedin-account.json` with only `personUrn` and `expiresAt`.
 3. The agent replies with the LinkedIn **member** the token belongs to. If it is not you, revoke the app's access (LinkedIn → Settings → Data privacy → Permitted services) and start again.
 
 LinkedIn gives self-serve apps no refresh token. Renew when a post warns that the token expires in under 10 days.
@@ -226,7 +226,7 @@ The publisher uses the Instagram API with Instagram Login, which publishes singl
    ```
 
    It stores `INSTAGRAM_ACCESS_TOKEN` bound to `graph.instagram.com`, and writes `workspace-instagram/state/instagram-token.json` with only `expiresAt` (60 days) and `renewedAt`.
-2. **Before the 60 days run out:** send **"renova o token"** to the Instagram bot, at least one day after the token was stored or last renewed. The agent runs `instagram/scripts/token.mjs refresh`, with no arguments; approve it. Meta issues a new 60-day token, which goes straight into the store. A scheduled post warns when fewer than 20 days remain.
+2. **Before the 60 days run out:** send **"renew the token"** to the Instagram bot, at least one day after the token was stored or last renewed. The agent runs `instagram/scripts/token.mjs refresh`, with no arguments; approve it. Meta issues a new 60-day token, which goes straight into the store. A scheduled post warns when fewer than 20 days remain.
 3. A token that expired cannot be renewed: generate a new one in the Meta app and run `token.mjs store` again.
 
 ## Deploy
@@ -273,17 +273,17 @@ After the first login the browser keeps its device pairing. Always pass `--profi
 
 ## Daily use
 
-Each agent chooses the topic, writes the post and makes its images; you approve it or ask for changes, in that agent's bot.
+Each agent chooses the topic, writes the post and makes its images; you approve it or ask for changes, in that agent's bot. Both agents talk to Gabriel in English, and Instagram posts are written in English.
 
 - On each agent's schedule, the draft arrives with its exact text, pillar, format, sources and file. The Instagram routine runs Monday, Wednesday and Friday at 09:00 America/Sao_Paulo: educational, practical and educational carousels, respectively, by default. Gabriel can ask the bot for another format on any of these days. Carousels have 4–6 numbered images and per-slide alt text. The bot also lists the words of each slide for spelling review.
-- The Instagram routine reads `content/editorial/<Monday-date>.json`, the ledger and the brand facts `USER.md` names. Reruns reuse the same execution and existing artifacts. A persistent publisher receipt prevents another publication of a completed, concurrent or uncertain execution. Preview deliveries say “Prévia, sem publicação” and do not request publication.
-- "novo post", "post sobre <tema>" (and, on Instagram, "carrossel sobre <tema>"): the same, on demand.
-- LinkedIn images are SVG files the agent writes in one of the formats of `linkedin/workspace/IMAGES.md`, the single visual style for posts and article covers. On demand, it runs `render.mjs` on the SVG; approve it and the PNG arrives with the post. A scheduled post never runs a command, so its draft ends with "Para ver a imagem, responda \"imagem\""; answer "imagem" and approve the render.
-- Instagram slides come from `image_generate`. When it fails (OpenAI down, a usage or rate limit, a failed sign-in), the agent writes every slide of that version as SVG in the house style of `instagram/workspace/SLIDES-SVG.md`, and the draft ends with "Responda \"imagem\" para vê-los"; answer "imagem" and approve the render, and the 1080x1080 JPEGs arrive with the official logo. When the failure reaches only a background completion, answer "slides em svg" first. The publisher posts the drawn JPEGs in place of generated ones.
-- "capa" (LinkedIn): the agent draws an article cover in the same style (`IMAGES.md`, "Article cover") and runs `render.mjs` on its `…-cover-v<n>.svg`; approve it and the 1920x1080 PNG arrives in the chat. Upload it to the article yourself: a cover is never published.
-- "mais curto", "outra imagem", "troca o slide 3", or any change: a new version, with new images only where the change calls for them.
-- "renova o token": in the LinkedIn bot, finishes the renewal after `auth.mjs url` in your terminal; in the Instagram bot, renews the Instagram token.
-- "ok" (or "publica"): the agent runs its publisher on the exact file, Telegram shows the approval with the command, and you answer `/approve <id> allow-once` or `/approve <id> deny`. Only `allow-once` and `deny` exist; there is no standing approval.
+- The Instagram routine reads `content/editorial/<Monday-date>.json`, the ledger and the brand facts `USER.md` names. Reruns reuse the same execution and existing artifacts. A persistent publisher receipt prevents another publication of a completed, concurrent or uncertain execution. Preview deliveries say “Preview, not published” and do not request publication.
+- "new post", "post about <topic>" (and, on Instagram, "carousel about <topic>"): the same, on demand.
+- LinkedIn images are SVG files the agent writes in one of the formats of `linkedin/workspace/IMAGES.md`, the single visual style for posts and article covers. On demand, it runs `render.mjs` on the SVG; approve it and the PNG arrives with the post. A scheduled post never runs a command, so its draft ends with "Reply \"image\" to see the image"; answer "image" and approve the render.
+- Instagram slides come from `image_generate`. When it fails (OpenAI down, a usage or rate limit, a failed sign-in), the agent writes every slide of that version as SVG in the house style of `instagram/workspace/SLIDES-SVG.md`, and the draft ends with "Reply \"image\" to see them"; answer "image" and approve the render, and the 1080x1080 JPEGs arrive with the official logo. When the failure reaches only a background completion, answer "svg slides" first. The publisher posts the drawn JPEGs in place of generated ones.
+- "cover" (LinkedIn): the agent draws an article cover in the same style (`IMAGES.md`, "Article cover") and runs `render.mjs` on its `…-cover-v<n>.svg`; approve it and the 1920x1080 PNG arrives in the chat. Upload it to the article yourself: a cover is never published.
+- "shorter", "another image", "swap slide 3", or any change: a new version, with new images only where the change calls for them.
+- "renew the token": in the LinkedIn bot, finishes the renewal after `auth.mjs url` in your terminal; in the Instagram bot, renews the Instagram token.
+- "ok" (or "publish"): the agent runs its publisher on the exact file, Telegram shows the approval with the command, and you answer `/approve <id> allow-once` or `/approve <id> deny`. Only `allow-once` and `deny` exist; there is no standing approval.
 
 **Read every approval before answering.** Approve only these exact shapes, only in the bot of the agent they belong to, and only for what you just asked for: the image of the post or the cover you asked for, the draft you saw, or the token step you asked for.
 
@@ -315,27 +315,27 @@ Three more habits keep that gate intact:
 | The deploy's config dry run fails on a SecretRef | `SOCIAL_GATEWAY_TOKEN`, `LINKEDIN_TELEGRAM_BOT_TOKEN` or `INSTAGRAM_TELEGRAM_BOT_TOKEN` is missing from the store. |
 | A post fails on a `web_search` error | The provider in `SOCIAL_WEB_SEARCH_PROVIDER` failed, limited the rate, or (DuckDuckGo) answered with a bot challenge. Test it with `openclaw --profile social infer web search --provider <id> --query test`. Ask for the post again later, or store another installed provider and deploy. |
 | A reply or post came from the Claude fallback, or both models failed | The primary failed with a failover error: check `openclaw --profile social models status --agent <id>` and sign in to OpenAI again if its profile expired. If the fallback failed too, the Anthropic key is missing, revoked or out of credit in that agent's auth store: paste it again (phase 2, step 4). |
-| A LinkedIn post arrives without its image | A scheduled post never renders: answer "imagem" and approve the render. On demand, the render was denied, or it was `rejected` (see the `rejected` rows under LinkedIn below). |
-| An Instagram post arrives without its images | `image_generate` failed or timed out. Answer "slides em svg" for SVG slides now, or ask for "outra imagem" later. If the log says the model "is not supported when using Codex with a ChatGPT account", store another model the sign-in lists in `SOCIAL_IMAGE_RESPONSES_MODEL` and deploy. A usage limit on the ChatGPT account stops generated images until it resets: `openclaw --profile social models status --agent instagram` shows it. |
+| A LinkedIn post arrives without its image | A scheduled post never renders: answer "image" and approve the render. On demand, the render was denied, or it was `rejected` (see the `rejected` rows under LinkedIn below). |
+| An Instagram post arrives without its images | `image_generate` failed or timed out. Answer "svg slides" for SVG slides now, or ask for "another image" later. If the log says the model "is not supported when using Codex with a ChatGPT account", store another model the sign-in lists in `SOCIAL_IMAGE_RESPONSES_MODEL` and deploy. A usage limit on the ChatGPT account stops generated images until it resets: `openclaw --profile social models status --agent instagram` shows it. |
 | An Instagram render is `rejected` | Nothing was drawn. The `message` names each slide's SVG and what broke `SLIDES-SVG.md` (a color or font outside the style, an image or link, text past the canvas); the agent fixes those SVGs and asks to render the list once more. "no fonts in …" means the deploy's copy has no `instagram/publisher/fonts/`: deploy again from a revision that has them. |
-| No scheduled post | The PC, WSL or the service was off at that time, and that run is skipped. Ask for "novo post". `openclaw --profile social cron runs <id>` shows the history. |
+| No scheduled post | The PC, WSL or the service was off at that time, and that run is skipped. Ask for "new post". `openclaw --profile social cron runs <id>` shows the history. |
 | `unknown`, timeout, network error or HTTP 5xx | The post **may exist**. Check the profile before asking again; nothing retries on its own. |
 
 ### LinkedIn
 
 | Symptom | Cause and fix |
 |---|---|
-| `not_posted`, "HTTP 401 … renova o token" or "the LinkedIn token expired" | The token expired or was revoked, or `state/linkedin-account.json` says it did. Run `linkedin/scripts/auth.mjs url` in WSL, then send "renova o token". |
+| `not_posted`, "HTTP 401 … renew the token" or "the LinkedIn token expired" | The token expired or was revoked, or `state/linkedin-account.json` says it did. Run `linkedin/scripts/auth.mjs url` in WSL, then send "renew the token". |
 | `auth.mjs url` or the renewal fails with "LINKEDIN_CLIENT_ID …", "LINKEDIN_REDIRECT_URI …" or "LINKEDIN_CLIENT_SECRET …" | A value is missing from the store, the client id or redirect URL was stored as a protected secret, or the secret as plaintext. Redo Phase 1 step 5 or Phase 2 step 5. |
 | LinkedIn shows "The redirect_uri does not match the registered value" | `LINKEDIN_REDIRECT_URI` differs from every redirect URL in the app's **Auth** tab, or one just added there has not taken effect yet. Copy it again, wait a few minutes and rerun `auth.mjs url`. |
 | `auth.mjs url`: "unauthorized_scope_error" | The app lacks **Sign In with LinkedIn using OpenID Connect** or **Share on LinkedIn**. Add it in **Products** and rerun `auth.mjs url`. |
-| Renewal `failed`, "no authorization is waiting" or "older than 30 minutes" | Run `auth.mjs url` in WSL first, and send "renova o token" within 30 minutes. Each code can be exchanged once. |
-| Renewal `failed`, "token exchange failed with HTTP 401 (invalid_client …)" | LinkedIn refused the client secret: a wrong or regenerated one, or one stored by hand. Store it again with the helper, then `auth.mjs url` and "renova o token". |
+| Renewal `failed`, "no authorization is waiting" or "older than 30 minutes" | Run `auth.mjs url` in WSL first, and send "renew the token" within 30 minutes. Each code can be exchanged once. |
+| Renewal `failed`, "token exchange failed with HTTP 401 (invalid_client …)" | LinkedIn refused the client secret: a wrong or regenerated one, or one stored by hand. Store it again with the helper, then `auth.mjs url` and "renew the token". |
 | `not_posted`, "HTTP 403 … w_member_social" | The app lacks **Share on LinkedIn**, or `LINKEDIN_ACCESS_TOKEN` is not bound to `api.linkedin.com`. Renew the token. |
 | `not_posted`, "retired API version … HTTP 426" | Store the latest active `LINKEDIN_API_VERSION`. |
 | `rejected`, "nothing was rendered; fix the SVG: …" | The agent's SVG broke a rule of `IMAGES.md` (a color or font outside the house style, a link, a script). The agent fixes that same SVG and asks to render it once more. |
 | `rejected`, "something runs past the 1200x800 canvas …" | A line of the SVG is longer than its space and would come out cropped. The agent shortens or breaks it and asks to render that same SVG once more. |
-| `rejected`, "… already exists; a changed image is the next version" | That version already has its image. Ask for "outra imagem": the agent writes the next version. |
+| `rejected`, "… already exists; a changed image is the next version" | That version already has its image. Ask for "another image": the agent writes the next version. |
 | `rejected`, "no fonts in …" | The deploy's copy has no `linkedin/publisher/fonts/`. Deploy again from a revision that has them. |
 | `not_posted`, "uploading the image was refused (HTTP 403)" | `LINKEDIN_ACCESS_TOKEN` is not allowed for `www.linkedin.com`: `openclaw --profile social secrets store set LINKEDIN_ACCESS_TOKEN --kind secret --allow-host api.linkedin.com --allow-host www.linkedin.com`. |
 
@@ -344,7 +344,7 @@ Three more habits keep that gate intact:
 | Symptom | Cause and fix |
 |---|---|
 | `not_posted`, "the Instagram token belongs to @…, not @…" | The token was generated for another account, or `INSTAGRAM_USERNAME` is wrong. Generate the token as the expected account and run `token.mjs store`, or fix the entry. |
-| `not_posted`, "… code 190 … renova o token" | The token expired or was revoked. Send "renova o token"; if it already expired, generate a new one in the Meta app and run `token.mjs store`. |
+| `not_posted`, "… code 190 … renew the token" | The token expired or was revoked. Send "renew the token"; if it already expired, generate a new one in the Meta app and run `token.mjs store`. |
 | `not_posted`, "… instagram_business_content_publish …" | The token lacks the publishing permission, or `INSTAGRAM_ACCESS_TOKEN` is not bound to `graph.instagram.com` (`openclaw --profile social secrets store list` shows the hosts). Generate the token again with both Instagram permissions and run `token.mjs store`. |
 | `not_posted`, "B2 authorization failed with HTTP 401" | The B2 key was revoked or entered incorrectly. Enter the bucket-restricted key again with `instagram/scripts/b2.mjs store`; verify its protected host binding to `api.backblazeb2.com`. |
 | `not_posted`, "B2 … failed with HTTP 401/403" or "application key must be restricted" | Check the key's dedicated bucket restriction and writing, listing, deleting and sharing capabilities, without a file prefix. Also check the account's caps. |

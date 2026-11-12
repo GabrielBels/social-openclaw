@@ -244,7 +244,7 @@ test("the renderer accepts exactly one versioned SVG path", () => {
 
 test("the Instagram renderer accepts exactly one versioned slide list path", () => {
   const argument = new RegExp(approvals.agents.instagram.allowlist[2].argPattern);
-  for (const ok of ["content/drafts/2026-10-12-prazo-recurso-v1.slides.txt", "content/drafts/2026-10-12-pedido-v12.slides.txt"]) {
+  for (const ok of ["content/drafts/2026-10-12-appeal-deadline-v1.slides.txt", "content/drafts/2026-10-12-order-v12.slides.txt"]) {
     assert.ok(argument.test(ok), ok);
   }
   for (const bad of [

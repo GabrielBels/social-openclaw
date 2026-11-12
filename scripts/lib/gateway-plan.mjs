@@ -170,8 +170,8 @@ export function postJobs({ telegramUserId, linkedin, instagram }) {
   return [
     job({
       name: "linkedin-scout",
-      displayName: "LinkedIn: post agendado",
-      description: `Pesquisa notícias de IA e engenharia, escreve um post com imagem e envia no Telegram para aprovação (cron ${linkedin.cron}, ${linkedin.tz}).`,
+      displayName: "LinkedIn: scheduled post",
+      description: `Researches AI and engineering news, writes a post with an image and sends it on Telegram for approval (cron ${linkedin.cron}, ${linkedin.tz}).`,
       agentId: "linkedin",
       schedule: linkedin,
       message: "Scheduled post (linkedin-scout). Follow section 1 (Post) of AGENTS.md exactly: choose the story, write the draft and its SVG image, and end with the post for Gabriel's approval, plus the token warning when it applies. Never run any command.",
@@ -180,8 +180,8 @@ export function postJobs({ telegramUserId, linkedin, instagram }) {
     }),
     job({
       name: "instagram-post",
-      displayName: "Instagram: post agendado",
-      description: `Carrossel educativo na segunda e na sexta e prático na quarta; revisão no Telegram (cron ${instagram.cron}, ${instagram.tz}).`,
+      displayName: "Instagram: scheduled post",
+      description: `Educational carousel on Monday and Friday and practical on Wednesday; review on Telegram (cron ${instagram.cron}, ${instagram.tz}).`,
       agentId: "instagram",
       schedule: instagram,
       message: "Scheduled post (instagram-post). Read EDITORIAL.md and follow section 1 (Post) of AGENTS.md. Use the scheduled date in America/Sao_Paulo: Monday educational carousel, Wednesday practical carousel, Friday educational carousel. Save the exact caption, slide list, metadata and same weekly execution before generating images. Reuse saved artifacts on rerun. Consult publication history, verified sources and the brand reference. End with the review package and token warning. Never run any command or publish.",

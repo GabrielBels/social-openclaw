@@ -23,7 +23,7 @@ async function loadAccount(workspaceRoot, now) {
   try {
     account = JSON.parse(await readFile(path.join(workspaceRoot, "state", "linkedin-account.json"), "utf8"));
   } catch {
-    throw new PublishError("state/linkedin-account.json is missing or unreadable; renew the token (linkedin/scripts/auth.mjs url in WSL, then \"renova o token\")");
+    throw new PublishError("state/linkedin-account.json is missing or unreadable; renew the token (linkedin/scripts/auth.mjs url in WSL, then \"renew the token\")");
   }
   return readAccount(account, now);
 }

@@ -124,7 +124,7 @@ test("an expired or missing account posts nothing and asks for re-auth", async t
     const root = await workspace(t, { account });
     const result = await invoke(root, { fetch });
     assert.equal(result.code, 1);
-    assert.match(JSON.parse(result.stderr).message, /renova o token/);
+    assert.match(JSON.parse(result.stderr).message, /renew the token/);
     assert.equal(result.calls.length, 0);
   }
 });

@@ -7,10 +7,10 @@ import { SvgError, backgroundOf, checkSvg, drawSvg } from "../../../linkedin/pub
 // The slide style of SLIDES-SVG.md, the fallback for when image_generate cannot make a post's slides: a square drawn
 // at 1080x1080, SOUL.md's colors, Geist and Inter.
 export const SLIDE = { viewBox: "0 0 1080 1080", width: 1080, height: 1080, name: "a slide" };
-// Marfim, azul, grafite, verde, cobre and white.
+// Ivory, navy, graphite, green, copper and white.
 export const PALETTE = ["#F6F3EC", "#12324A", "#1E2732", "#0F9D7A", "#B8743C", "#FFFFFF"];
-// A slide's background: marfim (*clara* covers and middle slides), azul (*escura* covers and the closing slide), verde
-// or cobre (*cor* covers).
+// A slide's background: ivory (*light* covers and middle slides), navy (*dark* covers and the closing slide), green
+// or copper (*color* covers).
 export const BACKGROUNDS = ["#F6F3EC", "#12324A", "#0F9D7A", "#B8743C"];
 // Inter's static fonts name their family "Inter 18pt".
 export const FONT_FAMILIES = ["Geist", "Inter 18pt"];
@@ -18,7 +18,7 @@ export const STYLE = {
   canvases: [SLIDE],
   palette: PALETTE,
   backgrounds: BACKGROUNDS,
-  backgroundNote: "the marfim, azul, verde or cobre of SLIDES-SVG.md",
+  backgroundNote: "the ivory, navy, green or copper of SLIDES-SVG.md",
   fontFamilies: FONT_FAMILIES,
   fontsDir: fileURLToPath(new URL("../fonts/", import.meta.url)),
   fonts: { defaultFontFamily: "Inter 18pt", sansSerifFamily: "Inter 18pt", serifFamily: "Inter 18pt", monospaceFamily: "Inter 18pt" }
@@ -40,8 +40,8 @@ function logo(file) {
 }
 
 // The logo, drawn on its own and laid over the slide after the checks, so nothing in the agent's SVG (a link, a style
-// rule, a comment) can reach it. It sits at the left of its box: the dark variant on azul, and on verde or cobre, whose
-// colors are in the mark, the light variant on a marfim badge that fills the box.
+// rule, a comment) can reach it. It sits at the left of its box: the dark variant on navy, and on green or copper, whose
+// colors are in the mark, the light variant on an ivory badge that fills the box.
 export function logoFragment(background, { cover = false } = {}) {
   const dark = background === "#12324A";
   const badge = background === "#0F9D7A" || background === "#B8743C";

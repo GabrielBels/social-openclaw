@@ -27,13 +27,13 @@ test("any execution day takes any editorial format, but not an unknown one", asy
     await writeFile(file.replace(/\.md$/, ".editorial.json"), JSON.stringify(value));
     return readEditorialMetadata(file);
   };
-  const friday = await metadata("2026-10-30-pedidos-v1.md", { executionId: "2026-10-26-3", format: "carousel-practical" });
+  const friday = await metadata("2026-10-30-orders-v1.md", { executionId: "2026-10-26-3", format: "carousel-practical" });
   assert.equal(friday.format, "carousel-practical");
   assert.equal(friday.id, "2026-10-26-3");
   const monday = await metadata("2026-10-26-conferencias-v1.md", { executionId: "2026-10-26-1", format: "carousel-educational" });
   assert.equal(monday.format, "carousel-educational");
   await assert.rejects(metadata("2026-10-26-conferencias-v2.md", { executionId: "2026-10-26-1", format: "reel", version: 2 }), /editorial format must be one of/);
-  await assert.rejects(metadata("2026-10-28-pedidos-v1.md", { executionId: "2026-10-26-2", format: "story" }), /editorial format must be one of/);
+  await assert.rejects(metadata("2026-10-28-orders-v1.md", { executionId: "2026-10-26-2", format: "story" }), /editorial format must be one of/);
 });
 
 async function fixture(t) {

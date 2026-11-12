@@ -60,7 +60,7 @@ async function storeFromPrompt({ prompt, spawn, openclawBin, workspace, now, std
   const renewedAt = now();
   const expiresAt = new Date(renewedAt.getTime() + DASHBOARD_TOKEN_DAYS * 24 * 60 * 60 * 1000).toISOString();
   await writeState(workspace, { expiresAt, renewedAt: renewedAt.toISOString() });
-  stdout.write(`Stored ${TOKEN_NAME} (protected, bound to ${TOKEN_HOST}). It lasts until about ${expiresAt}; after 24 hours, send "renova o token" to the Instagram bot to extend it.\n`);
+  stdout.write(`Stored ${TOKEN_NAME} (protected, bound to ${TOKEN_HOST}). It lasts until about ${expiresAt}; after 24 hours, send "renew the token" to the Instagram bot to extend it.\n`);
 }
 
 // Meta's own error code and message, bounded and printable; nothing else from the response is kept.

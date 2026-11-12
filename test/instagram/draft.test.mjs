@@ -9,21 +9,21 @@ async function workspace(t) {
   const root = await mkdtemp(path.join(os.tmpdir(), "instagram-draft-"));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, "content", "drafts"), { recursive: true });
-  await writeFile(path.join(root, "content", "drafts", "2026-10-12-prazo-recurso-v1.md"), "Legenda.\n");
-  await writeFile(path.join(root, "content", "drafts", "2026-10-12-prazo-recurso-v1.slides.txt"), "x");
+  await writeFile(path.join(root, "content", "drafts", "2026-10-12-appeal-deadline-v1.md"), "Caption.\n");
+  await writeFile(path.join(root, "content", "drafts", "2026-10-12-appeal-deadline-v1.slides.txt"), "x");
   await writeFile(path.join(root, "outside.md"), "fora");
   return root;
 }
 
 test("resolves a draft directly under content/drafts/", async t => {
   const root = await workspace(t);
-  const resolved = await resolveDraft(root, "content/drafts/2026-10-12-prazo-recurso-v1.md");
-  assert.equal(path.basename(resolved), "2026-10-12-prazo-recurso-v1.md");
+  const resolved = await resolveDraft(root, "content/drafts/2026-10-12-appeal-deadline-v1.md");
+  assert.equal(path.basename(resolved), "2026-10-12-appeal-deadline-v1.md");
 });
 
 test("refuses a missing draft, another extension, or a file outside content/drafts/", async t => {
   const root = await workspace(t);
-  for (const bad of ["content/drafts/2026-10-12-missing-v1.md", "content/drafts/2026-10-12-prazo-recurso-v1.slides.txt", "outside.md",
+  for (const bad of ["content/drafts/2026-10-12-missing-v1.md", "content/drafts/2026-10-12-appeal-deadline-v1.slides.txt", "outside.md",
     "content/drafts/../../outside.md", "", undefined]) {
     await assert.rejects(resolveDraft(root, bad), DraftError, String(bad));
   }
@@ -44,7 +44,7 @@ async function caption(t, text) {
 }
 
 test("the whole file is the caption, without the surrounding whitespace", async t => {
-  const text = "Pedido recusado por falta de anexo: como evitar.\n\nFonte: manual do fornecedor.\n\n#pedidos #gestaodecompras";
+  const text = "Order refused for a missing attachment: how to avoid it.\n\nSource: supplier manual.\n\n#orders #purchasing";
   assert.equal(await caption(t, `\n${text}\n\n`), text);
 });
 
@@ -52,10 +52,10 @@ test("refuses an empty caption and one over Instagram's limits", async t => {
   await assert.rejects(caption(t, " \n"), /empty/);
   await assert.rejects(caption(t, "a".repeat(MAX_CAPTION_CHARACTERS + 1)), /2201 characters/);
   await assert.rejects(caption(t, Array.from({ length: 31 }, (_, i) => `#tag${i}`).join(" ")), /31 hashtags/);
-  await assert.rejects(caption(t, Array.from({ length: 21 }, (_, i) => `@conta${i}`).join(" ")), /21 @mentions/);
+  await assert.rejects(caption(t, Array.from({ length: 21 }, (_, i) => `@account${i}`).join(" ")), /21 @mentions/);
 });
 
 test("counts hashtags and mentions as Instagram does, not every # or @", async t => {
   const tags = Array.from({ length: 30 }, (_, i) => `#faturamento${i}`).join(" ");
-  assert.ok(await caption(t, `${tags} contato@empresa.com.br C# pedido nº 12#3`));
+  assert.ok(await caption(t, `${tags} contact@company.com C# order no. 12#3`));
 });

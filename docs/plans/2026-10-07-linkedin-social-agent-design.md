@@ -69,7 +69,7 @@ Runtime state lives only in the Gateway workspace and is never overwritten by th
 1. **Scout.** It searches news from the last few days for each pillar and reads `content/ledger.md` to avoid repeats and to favour the pillar used least in the last six posts. It writes 4–5 pitches (fewer, with a reason, when nothing is relevant) to `content/pitches/YYYY-MM-DD.md`. Each pitch has a headline, why it matters, a proposed angle, the pillar and the source link. It also warns when `expiresAt` is less than 10 days away.
 2. **Pick.** Gabriel replies `2`, or `2, but with angle X`.
 3. **Draft.** The agent writes the post in English following `SOUL.md`. It saves each version as a new file, `content/drafts/YYYY-MM-DD-<slug>-v<n>.md`, and never overwrites one. It shows the full text, the file name, the pillar and the character count. Each revision ("shorter", "more opinionated") creates the next version.
-4. **Publish.** When Gabriel says "publica", the agent runs `publish.mjs <draft file>`. The Gateway forwards the approval prompt, which shows the exact draft path, and Gabriel answers `/approve <id> allow-once`.
+4. **Publish.** When Gabriel says "publish", the agent runs `publish.mjs <draft file>`. The Gateway forwards the approval prompt, which shows the exact draft path, and Gabriel answers `/approve <id> allow-once`.
 5. **Record.** The script posts and prints the post URL. The agent replies with the URL and appends date, pillar, topic, source and URL to `content/ledger.md`.
 
 ## Persona and Content Rules
@@ -135,7 +135,7 @@ It never prints the authorization header or the environment.
 - **Other 4xx/5xx and 429.** The script prints the status and LinkedIn's message, and the draft stays as it is. There is no automatic retry.
 - **Timeout or network error after the request was sent.** The post may already exist, so the agent tells Gabriel to check the profile before trying again. A blind retry could post twice.
 - **The ledger append fails after a successful post.** The URL is still reported and the failure is stated. The post is not undone.
-- **A cron run is missed because the PC is off.** That run is skipped and the next one runs normally. `pautas` gets pitches on demand.
+- **A cron run is missed because the PC is off.** That run is skipped and the next one runs normally. `pitches` gets pitches on demand.
 - **The scout finds nothing relevant.** It says so and sends fewer pitches. It never pads the list.
 
 ## Testing

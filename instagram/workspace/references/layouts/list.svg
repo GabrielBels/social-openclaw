@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+<style>
+.t-title{font-family:Geist;font-weight:700} .t-semi{font-family:Geist;font-weight:600}
+.t-body{font-family:'Inter 18pt';font-weight:400} .t-bodyb{font-family:'Inter 18pt';font-weight:600}
+.f-ivory{fill:#F6F3EC} .f-navy{fill:#12324A} .f-graphite{fill:#1E2732} .f-green{fill:#0F9D7A} .f-copper{fill:#B8743C} .f-white{fill:#FFFFFF} .f-none{fill:none}
+.s-navy{stroke:#12324A} .s-graphite{stroke:#1E2732} .s-green{stroke:#0F9D7A} .s-copper{stroke:#B8743C} .s-white{stroke:#FFFFFF} .s-ivory{stroke:#F6F3EC}
+</style>
+  <rect width="1080" height="1080" class="f-ivory"/>
+  <!-- The renderer draws the logo in x 96 to 356, y 64 to 168: keep that corner empty. -->
+  <text x="984" y="126" font-size="26" text-anchor="end" class="t-bodyb f-graphite" opacity=".6">3/5</text>
+
+  <text x="96" y="318" font-size="64" class="t-title f-navy">Check before you submit</text>
+
+  <g stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="96" y="400" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="460" r="32" class="f-green"/>
+    <polyline points="147,461 158,472 178,450" class="f-none s-white"/>
+    <text x="226" y="472" font-size="36" class="t-body f-graphite" stroke="none">Customer signature on the order</text>
+
+    <rect x="96" y="544" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="604" r="32" class="f-green"/>
+    <polyline points="147,605 158,616 178,594" class="f-none s-white"/>
+    <text x="226" y="616" font-size="36" class="t-body f-graphite" stroke="none">Product code in the catalog</text>
+
+    <rect x="96" y="688" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="748" r="32" class="f-green"/>
+    <polyline points="147,749 158,760 178,738" class="f-none s-white"/>
+    <text x="226" y="760" font-size="36" class="t-body f-graphite" stroke="none">Proof attached when required</text>
+
+    <rect x="96" y="832" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="892" r="32" class="f-green"/>
+    <polyline points="147,893 158,904 178,882" class="f-none s-white"/>
+    <text x="226" y="904" font-size="36" class="t-body f-graphite" stroke="none">Delivery date matches the invoice</text>
+  </g>
+</svg>

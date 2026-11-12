@@ -2,23 +2,23 @@
 <style>
 .t-title{font-family:Geist;font-weight:700} .t-semi{font-family:Geist;font-weight:600}
 .t-body{font-family:'Inter 18pt';font-weight:400} .t-bodyb{font-family:'Inter 18pt';font-weight:600}
-.f-marfim{fill:#F6F3EC} .f-azul{fill:#12324A} .f-grafite{fill:#1E2732} .f-verde{fill:#0F9D7A} .f-cobre{fill:#B8743C} .f-white{fill:#FFFFFF} .f-none{fill:none}
-.s-azul{stroke:#12324A} .s-grafite{stroke:#1E2732} .s-verde{stroke:#0F9D7A} .s-cobre{stroke:#B8743C} .s-white{stroke:#FFFFFF} .s-marfim{stroke:#F6F3EC}
+.f-ivory{fill:#F6F3EC} .f-navy{fill:#12324A} .f-graphite{fill:#1E2732} .f-green{fill:#0F9D7A} .f-copper{fill:#B8743C} .f-white{fill:#FFFFFF} .f-none{fill:none}
+.s-navy{stroke:#12324A} .s-graphite{stroke:#1E2732} .s-green{stroke:#0F9D7A} .s-copper{stroke:#B8743C} .s-white{stroke:#FFFFFF} .s-ivory{stroke:#F6F3EC}
 </style>
-  <rect width="1080" height="1080" class="f-azul"/>
+  <rect width="1080" height="1080" class="f-navy"/>
   <!-- The renderer draws the logo in x 135 to 395, y 64 to 168: keep that corner empty. -->
   <text x="945" y="126" font-size="26" text-anchor="end" class="t-bodyb f-white" opacity=".7">1/5</text>
 
-  <text x="135" y="372" font-size="100" class="t-title f-white">Antes de</text>
-  <text x="135" y="478" font-size="100" class="t-title f-white">fechar o mês</text>
-  <text x="135" y="560" font-size="38" class="t-body f-white" opacity=".85">Quatro conferências que evitam erro</text>
+  <text x="135" y="372" font-size="100" class="t-title f-white">Before you</text>
+  <text x="135" y="478" font-size="100" class="t-title f-white">close the month</text>
+  <text x="135" y="560" font-size="38" class="t-body f-white" opacity=".85">Four checks that prevent errors</text>
 
   <g stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="135" y="690" width="168" height="168" rx="28" class="f-verde"/>
+    <rect x="135" y="690" width="168" height="168" rx="28" class="f-green"/>
     <polyline points="181,778 209,806 259,750" class="f-none s-white"/>
-    <rect x="349" y="690" width="168" height="168" rx="28" class="f-verde"/>
+    <rect x="349" y="690" width="168" height="168" rx="28" class="f-green"/>
     <polyline points="395,778 423,806 473,750" class="f-none s-white"/>
-    <rect x="563" y="690" width="168" height="168" rx="28" class="f-verde"/>
+    <rect x="563" y="690" width="168" height="168" rx="28" class="f-green"/>
     <polyline points="609,778 637,806 687,750" class="f-none s-white"/>
     <rect x="777" y="690" width="168" height="168" rx="28" class="f-none s-white" stroke-width="6" stroke-dasharray="14 12" opacity=".6"/>
   </g>

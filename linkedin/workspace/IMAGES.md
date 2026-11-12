@@ -40,7 +40,7 @@ Pick the one that fits the content. Never use the format of the post before (the
 
 ## Article cover
 
-When Gabriel asks for a cover for one of his articles ("capa", "capa do artigo"), use the title or claim he gives; if he gives neither, ask for it. Use only facts he gave or the article states. Name it `content/drafts/YYYY-MM-DD-<slug>-cover-v1.svg` (the next version for each change), render it as in step 1.7 of `AGENTS.md` and send it with a `MEDIA:<media>` line. A cover has no `.md` draft and is never published: Gabriel uploads it to the article himself.
+When Gabriel asks for a cover for one of his articles ("cover", "article cover"), use the title or claim he gives; if he gives neither, ask for it. Use only facts he gave or the article states. Name it `content/drafts/YYYY-MM-DD-<slug>-cover-v1.svg` (the next version for each change), render it as in step 1.7 of `AGENTS.md` and send it with a `MEDIA:<media>` line. A cover has no `.md` draft and is never published: Gabriel uploads it to the article himself.
 
 ## Writing the SVG
 

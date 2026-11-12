@@ -130,7 +130,7 @@ export function checkSvg(svg, style = LINKEDIN_STYLE) {
   ]) {
     if (pattern.test(svg)) problems.add(`it contains ${what}`);
   }
-  // Any quoting and any namespace prefix (`href`, `xlink:href`, `é:href`), and `url(…)` in attributes or CSS.
+  // Any quoting and any namespace prefix (`href`, `xlink:href`, `ü:href`), and `url(…)` in attributes or CSS.
   for (const [, , value] of svg.matchAll(/[\s"'](?:[^\s"'=<>:]+:)?href\s*=\s*(["'])(.*?)\1/gi)) {
     if (!value.startsWith("#")) problems.add(`it links outside the file (${value})`);
   }

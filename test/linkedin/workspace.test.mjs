@@ -35,10 +35,10 @@ test("the only commands the instructions name are the renderer, the publisher an
 
 test("AGENTS.md sends a finished post with its rendered image for approval, and names drafts and images alike", () => {
   const agents = read("AGENTS.md");
-  for (const part of ["\"novo post\"", "`pautas`", "you choose the story yourself", "content/drafts/YYYY-MM-DD-<slug>-v1.md",
-    "following `IMAGES.md`", "`YYYY-MM-DD-<slug>-v1.svg`", "`MEDIA:<media>`", "Responda ok para publicar, ou diga o que mudar.",
-    "Never overwrite or edit a draft file.", "| Date | Pillar | Format | Topic | Source | URL |", "`Formato: <format>`", "\"capa\" makes an article cover",
-    "a scheduled run runs none", "A scheduled run skips the rest of this step and goes on to step 8.", "\"imagem\" renders the newest post SVG (not a cover)", "less than 10 days"]) {
+  for (const part of ["\"new post\"", "`pitches`", "you choose the story yourself", "content/drafts/YYYY-MM-DD-<slug>-v1.md",
+    "following `IMAGES.md`", "`YYYY-MM-DD-<slug>-v1.svg`", "`MEDIA:<media>`", "Reply ok to publish, or say what to change.",
+    "Never overwrite or edit a draft file.", "| Date | Pillar | Format | Topic | Source | URL |", "`Format: <format>`", "\"cover\" makes an article cover",
+    "a scheduled run runs none", "A scheduled run skips the rest of this step and goes on to step 8.", "\"image\" renders the newest post SVG (not a cover)", "less than 10 days"]) {
     assert.ok(agents.includes(part), part);
   }
   assert.ok(!agents.includes("image_generate"));
@@ -46,7 +46,7 @@ test("AGENTS.md sends a finished post with its rendered image for approval, and 
 
 test("AGENTS.md ends the turn after a renewal: that turn's commands cannot see the new token", () => {
   const renewal = read("AGENTS.md").split("## 5. Renew the LinkedIn token")[1];
-  for (const part of ["end your turn without publishing", "send \"publica\""]) assert.ok(renewal.includes(part), part);
+  for (const part of ["end your turn without publishing", "send \"publish\""]) assert.ok(renewal.includes(part), part);
 });
 
 test("SOUL.md writes engineering notes for a senior audience, with an SVG image that follows IMAGES.md", () => {

@@ -130,7 +130,7 @@ test("url, in a terminal, reads the client id and redirect URL from the store, p
   assert.equal(new URL(link).searchParams.get("client_id"), clientId);
   assert.equal(new URL(link).searchParams.get("redirect_uri"), redirectUri);
   assert.equal(new URL(link).searchParams.get("state"), state);
-  assert.match(result.stdout, /renova o token/);
+  assert.match(result.stdout, /renew the token/);
   assert.ok(!result.stdout.includes(code), "the code is never printed");
   assert.deepEqual(JSON.parse(await readFile(paths.pendingFile, "utf8")), { code, redirectUri, createdAt: t0.toISOString() });
   if (process.platform !== "win32") assert.equal((await stat(paths.pendingFile)).mode & 0o777, 0o600);

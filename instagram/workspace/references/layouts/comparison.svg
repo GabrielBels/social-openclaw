@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+<style>
+.t-title{font-family:Geist;font-weight:700} .t-semi{font-family:Geist;font-weight:600}
+.t-body{font-family:'Inter 18pt';font-weight:400} .t-bodyb{font-family:'Inter 18pt';font-weight:600}
+.f-ivory{fill:#F6F3EC} .f-navy{fill:#12324A} .f-graphite{fill:#1E2732} .f-green{fill:#0F9D7A} .f-copper{fill:#B8743C} .f-white{fill:#FFFFFF} .f-none{fill:none}
+.s-navy{stroke:#12324A} .s-graphite{stroke:#1E2732} .s-green{stroke:#0F9D7A} .s-copper{stroke:#B8743C} .s-white{stroke:#FFFFFF} .s-ivory{stroke:#F6F3EC}
+</style>
+  <rect width="1080" height="1080" class="f-ivory"/>
+  <!-- The renderer draws the logo in x 96 to 356, y 64 to 168: keep that corner empty. -->
+  <text x="984" y="126" font-size="26" text-anchor="end" class="t-bodyb f-graphite" opacity=".6">4/5</text>
+
+  <text x="96" y="318" font-size="60" class="t-title f-navy">Refusal or partial payment?</text>
+
+  <rect x="96" y="400" width="432" height="540" rx="28" class="f-white"/>
+  <rect x="96" y="400" width="432" height="96" rx="28" class="f-copper"/>
+  <rect x="96" y="460" width="432" height="36" class="f-copper"/>
+  <text x="136" y="462" font-size="38" class="t-semi f-white">Refusal</text>
+  <text x="136" y="576" font-size="32" class="t-body f-graphite">The customer refused</text>
+  <text x="136" y="620" font-size="32" class="t-body f-graphite">the item and stated</text>
+  <text x="136" y="664" font-size="32" class="t-body f-graphite">the reason in writing.</text>
+  <text x="136" y="884" font-size="30" class="t-bodyb f-copper">You can dispute it</text>
+
+  <rect x="552" y="400" width="432" height="540" rx="28" class="f-white"/>
+  <rect x="552" y="400" width="432" height="96" rx="28" class="f-green"/>
+  <rect x="552" y="460" width="432" height="36" class="f-green"/>
+  <text x="592" y="462" font-size="38" class="t-semi f-white">Partial payment</text>
+  <text x="592" y="576" font-size="32" class="t-body f-graphite">The amount paid was</text>
+  <text x="592" y="620" font-size="32" class="t-body f-graphite">below the contract, with</text>
+  <text x="592" y="664" font-size="32" class="t-body f-graphite">no reason given.</text>
+  <text x="592" y="884" font-size="30" class="t-bodyb f-green">Check the contract</text>
+</svg>

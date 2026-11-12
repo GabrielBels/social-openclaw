@@ -77,7 +77,7 @@ async function failure(response, stage, nothing = "Nothing was posted.", redact)
   const { code, message } = await graphError(response, redact);
   const detail = `HTTP ${response.status}${code === undefined ? "" : `, code ${code}`}`;
   if (code === 190) {
-    return new PublishError(`${stage} was refused (${detail}): the Instagram token expired or was revoked. Send "renova o token", or generate a new token in the Meta app and run instagram/scripts/token.mjs store in WSL. ${nothing}`);
+    return new PublishError(`${stage} was refused (${detail}): the Instagram token expired or was revoked. Send "renew the token", or generate a new token in the Meta app and run instagram/scripts/token.mjs store in WSL. ${nothing}`);
   }
   if (code === 10 || code === 200 || response.status === 403) {
     return new PublishError(`${stage} was refused (${detail}: ${message}): the token needs instagram_business_content_publish, or the egress proxy refused the request (INSTAGRAM_ACCESS_TOKEN not bound to graph.instagram.com). ${nothing}`);

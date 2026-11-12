@@ -9,32 +9,32 @@ const igSentinel = "oc-sent-v2.ig-cli-sentinel";
 const b2Sentinel = "oc-sent-v2.b2-cli-sentinel";
 const bucketId = "0123456789abcdef01234567";
 const env = {
-  INSTAGRAM_ACCESS_TOKEN: igSentinel, INSTAGRAM_B2_BASIC_AUTH: b2Sentinel, INSTAGRAM_API_VERSION: "v25.0", INSTAGRAM_USERNAME: "minha_marca",
+  INSTAGRAM_ACCESS_TOKEN: igSentinel, INSTAGRAM_B2_BASIC_AUTH: b2Sentinel, INSTAGRAM_API_VERSION: "v25.0", INSTAGRAM_USERNAME: "my_brand",
   INSTAGRAM_B2_BUCKET_ID: bucketId, INSTAGRAM_B2_BUCKET_NAME: "ig-media"
 };
 const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 7, 7, 7]);
 const uuid = n => `0000000${n}-aaaa-bbbb-cccc-dddddddddddd`;
-const draft = "content/drafts/2026-10-12-prazo-recurso-v2.md";
+const draft = "content/drafts/2026-10-12-appeal-deadline-v2.md";
 
 function sink() {
   const chunks = [];
   return { write: chunk => chunks.push(chunk), text: () => chunks.join("") };
 }
 
-async function workspace(t, { slides = ["2026-10-12-prazo-recurso-v1-1.jpg | Capa", "2026-10-12-prazo-recurso-v2-2.jpg | Regra"] } = {}) {
+async function workspace(t, { slides = ["2026-10-12-appeal-deadline-v1-1.jpg | Cover", "2026-10-12-appeal-deadline-v2-2.jpg | Rule"] } = {}) {
   const root = await mkdtemp(path.join(os.tmpdir(), "instagram-cli-"));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, "content", "drafts"), { recursive: true });
   await mkdir(path.join(root, "images"));
-  await writeFile(path.join(root, draft), "Contestação tem prazo (e ela conta da nota). #pedidos\n");
-  await writeFile(path.join(root, "content", "drafts", "2026-10-12-prazo-recurso-v2.slides.txt"), slides.join("\n"));
-  await writeFile(path.join(root, "images", `2026-10-12-prazo-recurso-v1-1---${uuid(1)}.jpg`), jpeg);
-  await writeFile(path.join(root, "images", `2026-10-12-prazo-recurso-v2-2---${uuid(2)}.jpg`), jpeg);
+  await writeFile(path.join(root, draft), "A dispute has a deadline (counted from the invoice). #orders\n");
+  await writeFile(path.join(root, "content", "drafts", "2026-10-12-appeal-deadline-v2.slides.txt"), slides.join("\n"));
+  await writeFile(path.join(root, "images", `2026-10-12-appeal-deadline-v1-1---${uuid(1)}.jpg`), jpeg);
+  await writeFile(path.join(root, "images", `2026-10-12-appeal-deadline-v2-2---${uuid(2)}.jpg`), jpeg);
   return root;
 }
 
 // Fake Instagram and B2 services retain uploaded versions to exercise failure cleanup.
-function services({ username = "minha_marca", status = "FINISHED", publish = () => json(200, { id: "179001" }), upload = 200 } = {}) {
+function services({ username = "my_brand", status = "FINISHED", publish = () => json(200, { id: "179001" }), upload = 200 } = {}) {
   let container = 0;
   let version = 0;
   const files = new Map();
@@ -109,9 +109,9 @@ test("a revision retains the weekly execution identity and cannot publish it twi
   await writeFile(path.join(root, draft.replace(/\.md$/, ".editorial.json")), JSON.stringify(metadata));
   assert.equal((await invoke(root)).code, 0);
   const revised = draft.replace("-v2.md", "-v3.md");
-  await writeFile(path.join(root, revised), "Legenda revisada");
+  await writeFile(path.join(root, revised), "Revised caption");
   await writeFile(path.join(root, revised.replace(/\.md$/, ".editorial.json")), JSON.stringify(metadata));
-  await writeFile(path.join(root, revised.replace(/\.md$/, ".slides.txt")), "2026-10-12-prazo-recurso-v1-1.jpg | Capa");
+  await writeFile(path.join(root, revised.replace(/\.md$/, ".slides.txt")), "2026-10-12-appeal-deadline-v1-1.jpg | Cover");
   const duplicate = await invoke(root, { argv: [revised] });
   assert.equal(duplicate.code, 1);
   assert.equal(duplicate.calls.length, 0);
@@ -149,7 +149,7 @@ test("publishes a carousel: uploads each slide, creates its items and the carous
   const result = await invoke(root);
   assert.equal(result.code, 0, result.stderr);
   assert.deepEqual(JSON.parse(result.stdout), {
-    status: "published", mediaId: "179001", url: "https://www.instagram.com/p/AbC123/", account: "@minha_marca",
+    status: "published", mediaId: "179001", url: "https://www.instagram.com/p/AbC123/", account: "@my_brand",
     draft, slides: 2, cleanup: "done"
   });
   const steps = result.calls.map(call => `${call.method} ${new URL(call.url).pathname.replace(/^.*\/(v4|v25\.0)\//, "")}`);
@@ -168,9 +168,9 @@ test("publishes a carousel: uploads each slide, creates its items and the carous
   ]);
   const created = result.calls.filter(call => call.url.endsWith("/media")).map(call => JSON.parse(call.body));
   assert.deepEqual(created, [
-    { image_url: "https://f005.backblazeb2.com/file/ig-media/f00d-2026-10-12-prazo-recurso-v1-1.jpg?Authorization=temporary-download-token", is_carousel_item: true, alt_text: "Capa" },
-    { image_url: "https://f005.backblazeb2.com/file/ig-media/f00d-2026-10-12-prazo-recurso-v2-2.jpg?Authorization=temporary-download-token", is_carousel_item: true, alt_text: "Regra" },
-    { media_type: "CAROUSEL", children: "180001,180002", caption: "Contestação tem prazo (e ela conta da nota). #pedidos" }
+    { image_url: "https://f005.backblazeb2.com/file/ig-media/f00d-2026-10-12-appeal-deadline-v1-1.jpg?Authorization=temporary-download-token", is_carousel_item: true, alt_text: "Cover" },
+    { image_url: "https://f005.backblazeb2.com/file/ig-media/f00d-2026-10-12-appeal-deadline-v2-2.jpg?Authorization=temporary-download-token", is_carousel_item: true, alt_text: "Rule" },
+    { media_type: "CAROUSEL", children: "180001,180002", caption: "A dispute has a deadline (counted from the invoice). #orders" }
   ]);
   assert.deepEqual(JSON.parse(result.calls.find(call => call.url.endsWith("/media_publish")).body), { creation_id: "180003" });
   const uploaded = result.calls.find(call => call.url.includes("pod-000-1005-03.backblaze.com"));
@@ -181,23 +181,23 @@ test("publishes a carousel: uploads each slide, creates its items and the carous
 });
 
 test("publishes a single image with its caption and alt text on the one container", async t => {
-  const root = await workspace(t, { slides: ["2026-10-12-prazo-recurso-v2-2.jpg | Checklist do recurso"] });
+  const root = await workspace(t, { slides: ["2026-10-12-appeal-deadline-v2-2.jpg | Appeal checklist"] });
   const result = await invoke(root);
   assert.equal(result.code, 0, result.stderr);
   assert.equal(JSON.parse(result.stdout).slides, 1);
   const created = result.calls.filter(call => call.url.endsWith("/media")).map(call => JSON.parse(call.body));
   assert.deepEqual(created, [{
-    image_url: "https://f005.backblazeb2.com/file/ig-media/f00d-2026-10-12-prazo-recurso-v2-2.jpg?Authorization=temporary-download-token",
-    caption: "Contestação tem prazo (e ela conta da nota). #pedidos", alt_text: "Checklist do recurso"
+    image_url: "https://f005.backblazeb2.com/file/ig-media/f00d-2026-10-12-appeal-deadline-v2-2.jpg?Authorization=temporary-download-token",
+    caption: "A dispute has a deadline (counted from the invoice). #orders", alt_text: "Appeal checklist"
   }]);
 });
 
 test("a token for another account posts nothing and uploads nothing", async t => {
   const root = await workspace(t);
-  const result = await invoke(root, { fetch: services({ username: "outra_conta" }) });
+  const result = await invoke(root, { fetch: services({ username: "other_account" }) });
   assert.equal(result.code, 1);
   assert.deepEqual(JSON.parse(result.stderr), {
-    status: "not_posted", message: "the Instagram token belongs to @outra_conta, not @minha_marca (INSTAGRAM_USERNAME). Nothing was posted."
+    status: "not_posted", message: "the Instagram token belongs to @other_account, not @my_brand (INSTAGRAM_USERNAME). Nothing was posted."
   });
   assert.equal(result.calls.length, 1);
 });
@@ -310,21 +310,21 @@ test("reflected private image URLs and bare download tokens are redacted before 
 test("refuses anything but exactly one draft argument, and a draft without its slides", async t => {
   const root = await workspace(t);
   const fetch = async () => assert.fail("must not call anyone");
-  for (const argv of [[], [draft, "--extra"], ["../outside.md"], ["content/drafts/2026-10-12-prazo-recurso-v2.slides.txt"]]) {
+  for (const argv of [[], [draft, "--extra"], ["../outside.md"], ["content/drafts/2026-10-12-appeal-deadline-v2.slides.txt"]]) {
     const result = await invoke(root, { argv, fetch });
     assert.equal(result.code, 1);
     assert.equal(JSON.parse(result.stderr).status, "not_posted");
   }
-  await rm(path.join(root, "images", `2026-10-12-prazo-recurso-v2-2---${uuid(2)}.jpg`));
+  await rm(path.join(root, "images", `2026-10-12-appeal-deadline-v2-2---${uuid(2)}.jpg`));
   const missing = await invoke(root, { fetch });
-  assert.match(JSON.parse(missing.stderr).message, /slide 2 \(2026-10-12-prazo-recurso-v2-2\.jpg\) is not among the generated images/);
+  assert.match(JSON.parse(missing.stderr).message, /slide 2 \(2026-10-12-appeal-deadline-v2-2\.jpg\) is not among the generated images/);
 });
 
 test("a slide drawn from SVG beside the draft is the one uploaded", async t => {
   const root = await workspace(t);
   const drawn = Buffer.from([0xff, 0xd8, 0xff, 0xdb, 9, 9, 9]);
-  await rm(path.join(root, "images", `2026-10-12-prazo-recurso-v2-2---${uuid(2)}.jpg`));
-  await writeFile(path.join(root, "content", "drafts", "2026-10-12-prazo-recurso-v2-2.jpg"), drawn);
+  await rm(path.join(root, "images", `2026-10-12-appeal-deadline-v2-2---${uuid(2)}.jpg`));
+  await writeFile(path.join(root, "content", "drafts", "2026-10-12-appeal-deadline-v2-2.jpg"), drawn);
   const result = await invoke(root);
   assert.equal(result.code, 0, result.stderr);
   const uploads = result.calls.filter(call => new URL(call.url).hostname === "pod-000-1005-03.backblaze.com").map(call => Buffer.from(call.body));

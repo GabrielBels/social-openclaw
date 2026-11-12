@@ -41,7 +41,7 @@
         "name": "linkedin",
         "workspace": "/home/openclaw/.openclaw-social/workspace-linkedin",
         "agentDir": "/home/openclaw/.openclaw-social/agents/linkedin/agent",
-        "identity": { "name": "Pauta", "emoji": "✍️" },
+        "identity": { "name": "Pitch", "emoji": "✍️" },
         "model": { "primary": "__LINKEDIN_MODEL__", "fallbacks": ["__LINKEDIN_FALLBACK_MODEL__"] },
         "thinkingDefault": "__LINKEDIN_THINKING__",
         "models": {
@@ -63,7 +63,7 @@
         "name": "instagram",
         "workspace": "/home/openclaw/.openclaw-social/workspace-instagram",
         "agentDir": "/home/openclaw/.openclaw-social/agents/instagram/agent",
-        "identity": { "name": "Vitrine", "emoji": "📸" },
+        "identity": { "name": "Showcase", "emoji": "📸" },
         "model": { "primary": "__INSTAGRAM_MODEL__", "fallbacks": ["__INSTAGRAM_FALLBACK_MODEL__"] },
         "thinkingDefault": "__INSTAGRAM_THINKING__",
         "models": {
