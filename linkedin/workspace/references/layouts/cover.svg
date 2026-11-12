@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<style>
+.t-head{font-family:Archivo;font-weight:700} .t-sans{font-family:'IBM Plex Sans';font-weight:400} .t-semi{font-family:'IBM Plex Sans';font-weight:600}
+.t-mono{font-family:'IBM Plex Mono';font-weight:400} .t-monob{font-family:'IBM Plex Mono SemiBold';font-weight:600}
+.f-bg{fill:#0D1117} .f-panel{fill:#161B22} .f-raised{fill:#21262D} .f-line{fill:#30363D} .f-mut{fill:#8B949E} .f-text{fill:#C9D1D9} .f-white{fill:#F0F6FC}
+.f-acc{fill:#3FB950} .f-tint{fill:#12261E} .f-none{fill:none}
+.s-grid{stroke:#161B22} .s-line{stroke:#30363D} .s-mut{stroke:#8B949E} .s-text{stroke:#C9D1D9} .s-acc{stroke:#3FB950} .s-bg{stroke:#0D1117}
+</style>
+  <defs><pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" class="f-none s-grid" stroke-width="1.5"/></pattern></defs>
+  <rect width="1280" height="720" class="f-bg"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+
+  <rect x="96" y="82" width="6" height="140" class="f-acc"/>
+  <text x="126" y="136" font-size="64" class="t-head f-white">Retries are safe</text>
+  <text x="126" y="210" font-size="64" class="t-head f-white">only with a stable key.</text>
+  <text x="126" y="268" font-size="28" class="t-sans f-text">An idempotency key turns a retried payment into a replay</text>
+  <rect x="112" y="294" width="334" height="40" rx="20" class="f-panel s-line" stroke-width="1.5"/>
+  <circle cx="134" cy="314" r="5" class="f-acc"/>
+  <text x="150" y="320" font-size="18" class="t-sans f-mut">Stripe API · AWS Builders' Library</text>
+
+  <g font-size="19" class="t-mono f-mut" opacity=".55">
+    <text x="96" y="432">&gt; POST /v1/payment_intents</text>
+    <text x="120" y="466">Idempotency-Key: 7f3a9c</text>
+    <text x="96" y="500">&lt; 200 OK  pi_81</text>
+    <text x="96" y="552">&gt; POST /v1/payment_intents  (retry)</text>
+    <text x="96" y="586">&lt; 200 OK  pi_81  Idempotent-Replayed</text>
+  </g>
+
+  <rect x="620" y="404" width="564" height="252" rx="12" class="f-panel s-line" stroke-width="1.5"/>
+  <circle cx="648" cy="440" r="5" class="f-acc"/>
+  <text x="664" y="446" font-size="14" letter-spacing="1.5" class="t-mono f-mut">SAME PAYMENT, SENT TWICE</text>
+  <text x="648" y="494" font-size="22" class="t-semi f-white">New key per retry</text>
+  <text x="1156" y="494" font-size="22" text-anchor="end" class="t-semi f-text">2 charges</text>
+  <text x="648" y="522" font-size="15" class="t-sans f-mut">The retry looks like a new payment</text>
+  <line x1="648" y1="548" x2="1156" y2="548" class="s-line" stroke-width="1.5"/>
+  <text x="648" y="594" font-size="22" class="t-semi f-white">Stable key</text>
+  <text x="648" y="622" font-size="15" class="t-sans f-mut">Stripe replays the first response</text>
+  <rect x="944" y="564" width="212" height="56" rx="8" class="f-tint s-acc" stroke-width="2"/>
+  <text x="1050" y="603" font-size="30" text-anchor="middle" class="t-head f-acc">1 charge</text>
+</svg>

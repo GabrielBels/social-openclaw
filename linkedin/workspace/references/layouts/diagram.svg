@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<style>
+.t-head{font-family:Archivo;font-weight:700} .t-sans{font-family:'IBM Plex Sans';font-weight:400} .t-semi{font-family:'IBM Plex Sans';font-weight:600}
+.t-mono{font-family:'IBM Plex Mono';font-weight:400} .t-monob{font-family:'IBM Plex Mono SemiBold';font-weight:600}
+.f-bg{fill:#0D1117} .f-panel{fill:#161B22} .f-raised{fill:#21262D} .f-line{fill:#30363D} .f-mut{fill:#8B949E} .f-text{fill:#C9D1D9} .f-white{fill:#F0F6FC}
+.f-acc{fill:#3FB950} .f-tint{fill:#12261E} .f-none{fill:none}
+.s-grid{stroke:#161B22} .s-line{stroke:#30363D} .s-mut{stroke:#8B949E} .s-text{stroke:#C9D1D9} .s-acc{stroke:#3FB950} .s-bg{stroke:#0D1117}
+</style>
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" class="f-none s-grid" stroke-width="1.5"/></pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" class="f-text"/></marker>
+  </defs>
+  <rect width="1200" height="800" class="f-bg"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+
+  <rect x="64" y="70" width="6" height="132" class="f-acc"/>
+  <text x="92" y="118" font-size="60" class="t-head f-white">Three branches checked out.</text>
+  <text x="92" y="188" font-size="60" class="t-head f-white">One object store.</text>
+  <text x="92" y="244" font-size="24" class="t-sans f-text">Each git worktree gets its own HEAD and index, not its own clone</text>
+
+  <g class="f-none s-text" stroke-width="1.5" marker-end="url(#arrow)">
+    <path d="M404 490C500 490 500 364 598 364"/>
+    <path d="M404 490H598"/>
+    <path d="M404 490C500 490 500 616 598 616"/>
+  </g>
+
+  <rect x="64" y="380" width="340" height="220" rx="12" class="f-tint s-acc" stroke-width="2"/>
+  <text x="92" y="432" font-size="28" class="t-monob f-acc">.git</text>
+  <text x="92" y="470" font-size="19" class="t-sans f-text">shared by every worktree</text>
+  <text x="92" y="522" font-size="17" class="t-mono f-mut">objects · refs · config</text>
+  <text x="92" y="554" font-size="17" class="t-mono f-mut">one copy on disk</text>
+
+  <g class="f-panel s-line" stroke-width="1.5">
+    <rect x="600" y="316" width="536" height="96" rx="12"/>
+    <rect x="600" y="442" width="536" height="96" rx="12"/>
+    <rect x="600" y="568" width="536" height="96" rx="12"/>
+  </g>
+  <g font-size="20" class="t-monob f-white">
+    <text x="628" y="356">repo/</text>
+    <text x="628" y="482">../fix-123/</text>
+    <text x="628" y="608">../feat-42/</text>
+  </g>
+  <g font-size="16" class="t-mono f-mut">
+    <text x="628" y="388">HEAD → main · own index</text>
+    <text x="628" y="514">HEAD → fix/123 · own index</text>
+    <text x="628" y="640">HEAD → feat/42 · own index</text>
+  </g>
+
+  <text x="64" y="646" font-size="17" class="t-sans f-mut">A branch can be checked out</text>
+  <text x="64" y="672" font-size="17" class="t-sans f-mut">in only one worktree at a time.</text>
+
+  <text x="64" y="736" font-size="13" letter-spacing="2" class="t-mono f-mut">G. BELISARIO</text>
+  <text x="1136" y="736" font-size="13" letter-spacing="1" text-anchor="end" class="t-mono f-mut">SOURCE: GIT-WORKTREE(1)</text>
+</svg>

@@ -1,0 +1,3 @@
+# Everything deployed runs on Linux (the publisher by its shebang, the systemd drop-in), and `git archive` applies
+# core.autocrlf, so text is always LF, in checkouts and in deploy archives alike.
+* text=auto eol=lf

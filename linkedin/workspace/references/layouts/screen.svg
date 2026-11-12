@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<style>
+.t-head{font-family:Archivo;font-weight:700} .t-sans{font-family:'IBM Plex Sans';font-weight:400} .t-semi{font-family:'IBM Plex Sans';font-weight:600}
+.t-mono{font-family:'IBM Plex Mono';font-weight:400} .t-monob{font-family:'IBM Plex Mono SemiBold';font-weight:600}
+.f-bg{fill:#0D1117} .f-panel{fill:#161B22} .f-raised{fill:#21262D} .f-line{fill:#30363D} .f-mut{fill:#8B949E} .f-text{fill:#C9D1D9} .f-white{fill:#F0F6FC}
+.f-acc{fill:#3FB950} .f-tint{fill:#12261E} .f-none{fill:none}
+.s-grid{stroke:#161B22} .s-line{stroke:#30363D} .s-mut{stroke:#8B949E} .s-text{stroke:#C9D1D9} .s-acc{stroke:#3FB950} .s-bg{stroke:#0D1117}
+</style>
+  <defs><pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" class="f-none s-grid" stroke-width="1.5"/></pattern></defs>
+  <rect width="1200" height="800" class="f-bg"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+
+  <rect x="64" y="70" width="6" height="132" class="f-acc"/>
+  <text x="92" y="118" font-size="60" class="t-head f-white">[skip ci] skips the run.</text>
+  <text x="92" y="188" font-size="60" class="t-head f-white">Required checks still wait.</text>
+  <text x="92" y="244" font-size="24" class="t-sans f-text">A skipped workflow never reports, so the merge stays blocked</text>
+
+  <rect x="64" y="286" width="1072" height="410" rx="12" class="f-panel s-line" stroke-width="1.5"/>
+  <path d="M76 286H1124A12 12 0 0 1 1136 298V330H64V298A12 12 0 0 1 76 286Z" class="f-raised"/>
+  <path d="M64 330H1136" class="f-none s-line" stroke-width="1.5"/>
+  <g class="f-line"><circle cx="90" cy="308" r="6"/><circle cx="112" cy="308" r="6"/><circle cx="134" cy="308" r="6"/></g>
+  <text x="600" y="313" font-size="14" text-anchor="middle" class="t-mono f-mut">pull request #482 · checks</text>
+
+  <text x="92" y="374" font-size="17" class="t-mono f-mut">a1c9e3f</text>
+  <text x="182" y="374" font-size="17" class="t-mono f-text">docs: fix typo <tspan class="t-monob f-white">[skip ci]</tspan></text>
+  <path d="M92 398H1108" class="f-none s-line" stroke-width="1.5"/>
+
+  <g class="f-none s-mut" stroke-width="2" stroke-dasharray="3 3"><circle cx="104" cy="434" r="9"/><circle cx="104" cy="482" r="9"/></g>
+  <g font-size="18" class="t-semi f-text"><text x="128" y="440">build</text><text x="128" y="488">test</text></g>
+  <g font-size="16" class="t-sans f-mut">
+    <text x="214" y="440">Expected · Waiting for status to be reported</text>
+    <text x="214" y="488">Expected · Waiting for status to be reported</text>
+  </g>
+  <g class="f-none s-line" stroke-width="1.5"><rect x="1008" y="420" width="100" height="28" rx="14"/><rect x="1008" y="468" width="100" height="28" rx="14"/></g>
+  <g font-size="13" text-anchor="middle" class="t-sans f-mut"><text x="1058" y="439">Required</text><text x="1058" y="487">Required</text></g>
+
+  <rect x="92" y="524" width="1016" height="72" rx="8" class="f-bg s-line" stroke-width="1.5"/>
+  <text x="120" y="554" font-size="19" class="t-semi f-white">Merging is blocked</text>
+  <text x="120" y="580" font-size="15" class="t-sans f-mut">Required statuses must pass before merging</text>
+
+  <rect x="92" y="622" width="6" height="50" class="f-acc"/>
+  <text x="114" y="642" font-size="17" class="t-monob f-acc">fix: skip with a job-level if:</text>
+  <text x="114" y="668" font-size="15" class="t-sans f-text">A job skipped by its if: reports Success, so the required check passes</text>
+
+  <text x="64" y="736" font-size="13" letter-spacing="2" class="t-mono f-mut">G. BELISARIO</text>
+  <text x="1136" y="736" font-size="13" letter-spacing="1" text-anchor="end" class="t-mono f-mut">SOURCE: GITHUB DOCS, SKIPPING WORKFLOW RUNS</text>
+</svg>

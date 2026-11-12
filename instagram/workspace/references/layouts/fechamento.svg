@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+<style>
+.t-title{font-family:Geist;font-weight:700} .t-semi{font-family:Geist;font-weight:600}
+.t-body{font-family:'Inter 18pt';font-weight:400} .t-bodyb{font-family:'Inter 18pt';font-weight:600}
+.f-marfim{fill:#F6F3EC} .f-azul{fill:#12324A} .f-grafite{fill:#1E2732} .f-verde{fill:#0F9D7A} .f-cobre{fill:#B8743C} .f-white{fill:#FFFFFF} .f-none{fill:none}
+.s-azul{stroke:#12324A} .s-grafite{stroke:#1E2732} .s-verde{stroke:#0F9D7A} .s-cobre{stroke:#B8743C} .s-white{stroke:#FFFFFF} .s-marfim{stroke:#F6F3EC}
+</style>
+  <rect width="1080" height="1080" class="f-azul"/>
+  <!-- The renderer draws the logo in x 96 to 356, y 64 to 168: keep that corner empty. -->
+  <text x="984" y="126" font-size="26" text-anchor="end" class="t-bodyb f-white" opacity=".7">5/5</text>
+
+  <text x="96" y="380" font-size="72" class="t-title f-white">Quatro conferências,</text>
+  <text x="96" y="464" font-size="72" class="t-title f-white">um mês sem erro</text>
+  <text x="96" y="560" font-size="36" class="t-body f-white" opacity=".85">Contrato, valor, anexo e data:</text>
+  <text x="96" y="608" font-size="36" class="t-body f-white" opacity=".85">confira antes de cada envio.</text>
+
+  <rect x="96" y="760" width="888" height="120" rx="60" class="f-verde"/>
+  <text x="540" y="833" font-size="34" text-anchor="middle" class="t-bodyb f-white">Saiba mais pelo link da bio.</text>
+</svg>

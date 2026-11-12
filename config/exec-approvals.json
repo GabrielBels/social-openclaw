@@ -1,0 +1,44 @@
+{
+  "defaults": { "security": "deny", "ask": "always", "askFallback": "deny" },
+  "agents": {
+    "linkedin": {
+      "security": "allowlist",
+      "ask": "always",
+      "askFallback": "deny",
+      "allowlist": [
+        {
+          "pattern": "/home/openclaw/.openclaw-social/social-openclaw/linkedin/publisher/publish.mjs",
+          "argPattern": "^content/drafts/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+[.]md$"
+        },
+        {
+          "pattern": "/home/openclaw/.openclaw-social/social-openclaw/linkedin/scripts/auth.mjs",
+          "argPattern": "^exchange$"
+        },
+        {
+          "pattern": "/home/openclaw/.openclaw-social/social-openclaw/linkedin/publisher/render.mjs",
+          "argPattern": "^content/drafts/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+[.]svg$"
+        }
+      ]
+    },
+    "instagram": {
+      "security": "allowlist",
+      "ask": "always",
+      "askFallback": "deny",
+      "allowlist": [
+        {
+          "pattern": "/home/openclaw/.openclaw-social/social-openclaw/instagram/publisher/publish.mjs",
+          "argPattern": "^content/drafts/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+[.]md$"
+        },
+        {
+          "pattern": "/home/openclaw/.openclaw-social/social-openclaw/instagram/scripts/token.mjs",
+          "argPattern": "^refresh$"
+        },
+        {
+          "pattern": "/home/openclaw/.openclaw-social/social-openclaw/instagram/publisher/render.mjs",
+          "argPattern": "^content/drafts/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+[.]slides[.]txt$"
+        }
+      ]
+    },
+    "main": { "security": "deny", "ask": "always", "askFallback": "deny", "allowlist": [] }
+  }
+}

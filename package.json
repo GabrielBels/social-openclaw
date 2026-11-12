@@ -1,0 +1,17 @@
+{
+  "name": "social-openclaw",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "OpenClaw social media Gateway: a LinkedIn agent and an Instagram agent that draft posts and publish them through the official APIs after an /approve.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "jpeg-js": "0.4.4"
+  }
+}

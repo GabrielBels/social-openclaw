@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+<style>
+.t-title{font-family:Geist;font-weight:700} .t-semi{font-family:Geist;font-weight:600}
+.t-body{font-family:'Inter 18pt';font-weight:400} .t-bodyb{font-family:'Inter 18pt';font-weight:600}
+.f-marfim{fill:#F6F3EC} .f-azul{fill:#12324A} .f-grafite{fill:#1E2732} .f-verde{fill:#0F9D7A} .f-cobre{fill:#B8743C} .f-white{fill:#FFFFFF} .f-none{fill:none}
+.s-azul{stroke:#12324A} .s-grafite{stroke:#1E2732} .s-verde{stroke:#0F9D7A} .s-cobre{stroke:#B8743C} .s-white{stroke:#FFFFFF} .s-marfim{stroke:#F6F3EC}
+</style>
+  <rect width="1080" height="1080" class="f-marfim"/>
+  <!-- The renderer draws the logo in x 96 to 356, y 64 to 168: keep that corner empty. -->
+  <text x="984" y="126" font-size="26" text-anchor="end" class="t-bodyb f-grafite" opacity=".6">3/5</text>
+
+  <text x="96" y="318" font-size="64" class="t-title f-azul">Confira antes de enviar</text>
+
+  <g stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="96" y="400" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="460" r="32" class="f-verde"/>
+    <polyline points="147,461 158,472 178,450" class="f-none s-white"/>
+    <text x="226" y="472" font-size="36" class="t-body f-grafite" stroke="none">Assinatura do cliente no pedido</text>
+
+    <rect x="96" y="544" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="604" r="32" class="f-verde"/>
+    <polyline points="147,605 158,616 178,594" class="f-none s-white"/>
+    <text x="226" y="616" font-size="36" class="t-body f-grafite" stroke="none">Código do produto no catálogo</text>
+
+    <rect x="96" y="688" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="748" r="32" class="f-verde"/>
+    <polyline points="147,749 158,760 178,738" class="f-none s-white"/>
+    <text x="226" y="760" font-size="36" class="t-body f-grafite" stroke="none">Comprovante anexado quando exigido</text>
+
+    <rect x="96" y="832" width="888" height="120" rx="24" class="f-white"/>
+    <circle cx="162" cy="892" r="32" class="f-verde"/>
+    <polyline points="147,893 158,904 178,882" class="f-none s-white"/>
+    <text x="226" y="904" font-size="36" class="t-body f-grafite" stroke="none">Data da entrega igual à nota</text>
+  </g>
+</svg>

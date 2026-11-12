@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<style>
+.t-head{font-family:Archivo;font-weight:700} .t-sans{font-family:'IBM Plex Sans';font-weight:400} .t-semi{font-family:'IBM Plex Sans';font-weight:600}
+.t-mono{font-family:'IBM Plex Mono';font-weight:400} .t-monob{font-family:'IBM Plex Mono SemiBold';font-weight:600}
+.f-bg{fill:#0D1117} .f-panel{fill:#161B22} .f-raised{fill:#21262D} .f-line{fill:#30363D} .f-mut{fill:#8B949E} .f-text{fill:#C9D1D9} .f-white{fill:#F0F6FC}
+.f-acc{fill:#3FB950} .f-tint{fill:#12261E} .f-none{fill:none}
+.s-grid{stroke:#161B22} .s-line{stroke:#30363D} .s-mut{stroke:#8B949E} .s-text{stroke:#C9D1D9} .s-acc{stroke:#3FB950} .s-bg{stroke:#0D1117}
+</style>
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" class="f-none s-grid" stroke-width="1.5"/></pattern>
+    <g id="card"><rect width="280" height="24" rx="5" class="f-panel s-mut" stroke-width="1.5"/><path d="M16 12h56M88 12h120" class="f-none s-line" stroke-width="3" stroke-linecap="round"/></g>
+  </defs>
+  <rect width="1200" height="800" class="f-bg"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+
+  <rect x="64" y="70" width="6" height="132" class="f-acc"/>
+  <text x="92" y="118" font-size="60" class="t-head f-white">Agents write faster.</text>
+  <text x="92" y="188" font-size="60" class="t-head f-white">Review runs at human speed.</text>
+  <text x="92" y="244" font-size="24" class="t-sans f-text">The queue moves to the one step you cannot run in parallel</text>
+
+  <path d="M64 680H1136" class="f-none s-line" stroke-width="2"/>
+
+  <text x="120" y="340" font-size="15" letter-spacing="1.5" class="t-mono f-mut">WAITING FOR REVIEW</text>
+  <use href="#card" x="126" y="650"/><use href="#card" x="118" y="620"/><use href="#card" x="130" y="590"/>
+  <use href="#card" x="122" y="560"/><use href="#card" x="114" y="530"/><use href="#card" x="128" y="500"/>
+  <use href="#card" x="120" y="470"/><use href="#card" x="132" y="440"/><use href="#card" x="116" y="410"/>
+  <use href="#card" x="126" y="380"/><use href="#card" x="120" y="350"/>
+
+  <path d="M830 473L905 512L962 680H592Z" class="f-tint"/>
+  <rect x="980" y="664" width="120" height="16" rx="4" class="f-raised s-text" stroke-width="2"/>
+  <path d="M1040 664L1000 520L900 430" class="f-none s-text" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="1000" cy="520" r="7" class="f-bg s-text" stroke-width="2"/>
+  <path d="M888 423L912 437L905 512L830 473Z" class="f-raised s-text" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="900" cy="430" r="7" class="f-bg s-text" stroke-width="2"/>
+
+  <text x="650" y="590" font-size="15" letter-spacing="1.5" class="t-mono f-acc">IN REVIEW</text>
+  <rect x="650" y="604" width="260" height="64" rx="8" class="f-panel s-acc" stroke-width="2"/>
+  <path d="M674 626h120M674 646h80" class="f-none s-text" stroke-width="3" stroke-linecap="round"/>
+  <path d="M854 636l12 12 24-26" class="f-none s-acc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="64" y="736" font-size="13" letter-spacing="2" class="t-mono f-mut">G. BELISARIO</text>
+  <text x="1136" y="736" font-size="13" letter-spacing="1" text-anchor="end" class="t-mono f-mut">SOURCE: ANTHROPIC RESEARCH</text>
+</svg>

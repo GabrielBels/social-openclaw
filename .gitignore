@@ -1,0 +1,7 @@
+node_modules/
+*.log
+.env
+.env.*
+# Runtime state lives only in the Gateway workspaces.
+*/workspace/content/
+*/workspace/state/

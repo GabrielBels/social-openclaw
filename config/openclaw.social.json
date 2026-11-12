@@ -1,0 +1,125 @@
+{
+  "gateway": {
+    "mode": "local",
+    "bind": "loopback",
+    "port": 18289,
+    "auth": { "mode": "token", "token": { "source": "store", "provider": "default", "id": "SOCIAL_GATEWAY_TOKEN" } }
+  },
+  "browser": { "enabled": false },
+  "secrets": { "egressProxy": { "enabled": true } },
+  "commands": { "bash": false, "config": false },
+  "skills": {
+    "workshop": { "autonomous": { "mode": "off" } },
+    "entries": { "linkedin-publisher": { "enabled": true }, "instagram-publisher": { "enabled": true } }
+  },
+  "plugins": {
+    "entries": {
+      "memory-core": { "config": { "dreaming": { "enabled": false } } },
+      "telegram": { "enabled": true },
+      "codex": { "enabled": false }
+    }
+  },
+  "agents": {
+    "ownership": "explicit",
+    "defaults": {
+      "workspace": "/home/openclaw/.openclaw-social/workspace-main-retired",
+      "heartbeat": { "every": "0m" },
+      "embeddedAgent": { "projectSettingsPolicy": "ignore" },
+      "model": "__IMAGE_RESPONSES_MODEL__",
+      "mediaModels": { "image": { "primary": "__IMAGE_MODEL__" } }
+    },
+    "entries": {
+      "main": {
+        "name": "main",
+        "workspace": "/home/openclaw/.openclaw-social/workspace-main-retired",
+        "agentDir": "/home/openclaw/.openclaw-social/agents/main/agent",
+        "skills": [],
+        "heartbeat": { "every": "0m" },
+        "tools": { "allow": [], "deny": ["*"] }
+      },
+      "linkedin": {
+        "name": "linkedin",
+        "workspace": "/home/openclaw/.openclaw-social/workspace-linkedin",
+        "agentDir": "/home/openclaw/.openclaw-social/agents/linkedin/agent",
+        "identity": { "name": "Pauta", "emoji": "✍️" },
+        "model": { "primary": "__LINKEDIN_MODEL__", "fallbacks": ["__LINKEDIN_FALLBACK_MODEL__"] },
+        "thinkingDefault": "__LINKEDIN_THINKING__",
+        "models": {
+          "__LINKEDIN_MODEL__": { "agentRuntime": { "id": "openclaw" }, "codeMode": false },
+          "__LINKEDIN_FALLBACK_MODEL__": { "agentRuntime": { "id": "openclaw" }, "codeMode": false },
+          "openai/*": { "agentRuntime": { "id": "openclaw" } }
+        },
+        "skills": ["linkedin-publisher"],
+        "heartbeat": { "every": "0m" },
+        "tools": {
+          "codeMode": { "enabled": false, "executor": "quickjs" },
+          "allow": ["web_search", "web_fetch", "read", "write", "edit", "exec"],
+          "deny": ["browser", "canvas", "nodes", "cron", "gateway", "message", "process", "apply_patch", "group:sessions"],
+          "fs": { "workspaceOnly": true },
+          "exec": { "host": "gateway", "security": "allowlist", "ask": "always" }
+        }
+      },
+      "instagram": {
+        "name": "instagram",
+        "workspace": "/home/openclaw/.openclaw-social/workspace-instagram",
+        "agentDir": "/home/openclaw/.openclaw-social/agents/instagram/agent",
+        "identity": { "name": "Vitrine", "emoji": "📸" },
+        "model": { "primary": "__INSTAGRAM_MODEL__", "fallbacks": ["__INSTAGRAM_FALLBACK_MODEL__"] },
+        "thinkingDefault": "__INSTAGRAM_THINKING__",
+        "models": {
+          "__INSTAGRAM_MODEL__": { "agentRuntime": { "id": "openclaw" }, "codeMode": false },
+          "__INSTAGRAM_FALLBACK_MODEL__": { "agentRuntime": { "id": "openclaw" }, "codeMode": false },
+          "openai/*": { "agentRuntime": { "id": "openclaw" } }
+        },
+        "skills": ["instagram-publisher"],
+        "heartbeat": { "every": "0m" },
+        "tools": {
+          "codeMode": { "enabled": false, "executor": "quickjs" },
+          "allow": ["web_search", "web_fetch", "read", "write", "edit", "image_generate", "exec"],
+          "deny": ["browser", "canvas", "nodes", "cron", "gateway", "message", "process", "apply_patch", "group:sessions"],
+          "fs": { "workspaceOnly": true },
+          "exec": { "host": "gateway", "security": "allowlist", "ask": "always" }
+        }
+      }
+    }
+  },
+  "tools": {
+    "fs": { "workspaceOnly": true },
+    "exec": { "host": "gateway", "security": "allowlist", "ask": "always" },
+    "web": { "search": { "provider": "__WEB_SEARCH_PROVIDER__" } }
+  },
+  "approvals": {
+    "exec": { "enabled": true, "mode": "session", "agentFilter": ["linkedin", "instagram"] }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "allowlist",
+      "allowFrom": ["__TELEGRAM_USER_ID__"],
+      "groupPolicy": "disabled",
+      "defaultAccount": "linkedin",
+      "accounts": {
+        "linkedin": {
+          "enabled": true,
+          "botToken": { "source": "store", "provider": "default", "id": "LINKEDIN_TELEGRAM_BOT_TOKEN" },
+          "dmPolicy": "allowlist",
+          "allowFrom": ["__TELEGRAM_USER_ID__"],
+          "groupPolicy": "disabled",
+          "execApprovals": { "enabled": true, "approvers": ["__TELEGRAM_USER_ID__"], "target": "dm", "agentFilter": ["linkedin"] }
+        },
+        "instagram": {
+          "enabled": true,
+          "botToken": { "source": "store", "provider": "default", "id": "INSTAGRAM_TELEGRAM_BOT_TOKEN" },
+          "dmPolicy": "allowlist",
+          "allowFrom": ["__TELEGRAM_USER_ID__"],
+          "groupPolicy": "disabled",
+          "execApprovals": { "enabled": true, "approvers": ["__TELEGRAM_USER_ID__"], "target": "dm", "agentFilter": ["instagram"] }
+        }
+      }
+    }
+  },
+  "bindings": [
+    { "type": "route", "agentId": "linkedin", "match": { "channel": "telegram", "accountId": "linkedin" } },
+    { "type": "route", "agentId": "instagram", "match": { "channel": "telegram", "accountId": "instagram" } }
+  ]
+}
